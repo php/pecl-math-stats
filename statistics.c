@@ -113,7 +113,7 @@ zend_function_entry statistics_functions[] = {
 	{NULL, NULL, NULL}
 };
 
-zend_module_entry statistics_module_entry = {
+zend_module_entry stats_module_entry = {
 	STANDARD_MODULE_HEADER,
 	"stats",
 	statistics_functions,
