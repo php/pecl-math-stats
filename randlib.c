@@ -3,8 +3,15 @@
 #include <math.h>
 #include <stdlib.h>
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
-#define min(a,b) ((a) <= (b) ? (a) : (b))
-#define max(a,b) ((a) >= (b) ? (a) : (b))
+
+#ifndef min
+# define min(a,b) ((a) <= (b) ? (a) : (b))
+#endif
+
+#ifndef max
+# define max(a,b) ((a) >= (b) ? (a) : (b))
+#endif
+
 void ftnstop2(char*);
 float genbet(float aa,float bb)
 /*
