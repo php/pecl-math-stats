@@ -21,17 +21,17 @@
 #ifndef PHP_STATISTICS_H
 #define PHP_STATISTICS_H
 
-extern zend_module_entry statistics_module_entry;
-#define phpext_statistics_ptr &statistics_module_entry
+extern zend_module_entry stats_module_entry;
+#define phpext_stats_ptr &stats_module_entry
 
 #ifdef PHP_WIN32
-#define PHP_STATISTICS_API __declspec(dllexport)
+#define PHP_STATS_API __declspec(dllexport)
 #else
-#define PHP_STATISTICS_API
+#define PHP_STATS_API
 #endif
 
 
-PHP_MINFO_FUNCTION(statistics);
+PHP_MINFO_FUNCTION(stats);
 
 PHP_FUNCTION(stats_bin_counts);
 PHP_FUNCTION(stats_cdf_t);
@@ -99,13 +99,13 @@ PHP_FUNCTION(stats_stat_factorial);
 
 
 #ifdef ZTS
-#define STATISTICS_D zend_statistics_globals *statistics_globals
-#define STATISTICS_G(v) (statistics_globals->v)
-#define STATISTICS_FETCH() zend_statistics_globals *statistics_globals = ts_resource(statistics_globals_id)
+#define STATS_D zend_stats_globals *stats_globals
+#define STATS_G(v) (stats_globals->v)
+#define STATS_FETCH() zend_stats_globals *stats_globals = ts_resource(stats_globals_id)
 #else
-#define STATISTICS_D
-#define STATISTICS_G(v) (statistics_globals.v)
-#define STATISTICS_FETCH()
+#define STATS_D
+#define STATS_G(v) (stats_globals.v)
+#define STATS_FETCH()
 #endif
 
 #endif	/* PHP_STATISTICS_H */
