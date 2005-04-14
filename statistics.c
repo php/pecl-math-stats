@@ -122,7 +122,7 @@ zend_module_entry stats_module_entry = {
  	NULL,
  	NULL,
  	PHP_MINFO(stats),
- 	"0.4",
+ 	"1.0",
 	STANDARD_MODULE_PROPERTIES,
 };
 
