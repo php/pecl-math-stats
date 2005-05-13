@@ -96,6 +96,13 @@ PHP_FUNCTION(stats_stat_percentile);
 PHP_FUNCTION(stats_stat_correlation);
 PHP_FUNCTION(stats_stat_binomial_coef);
 PHP_FUNCTION(stats_stat_factorial);
+PHP_FUNCTION(stats_absolute_deviation);
+PHP_FUNCTION(stats_standard_deviation);
+PHP_FUNCTION(stats_variance);
+PHP_FUNCTION(stats_harmonic_mean);
+PHP_FUNCTION(stats_skew);
+PHP_FUNCTION(stats_kurtosis);
+PHP_FUNCTION(stats_covariance);
 
 
 #ifdef ZTS
