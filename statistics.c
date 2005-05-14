@@ -3689,7 +3689,7 @@ PHP_FUNCTION(stats_kurtosis)
 PHP_FUNCTION(stats_covariance)
 {
 	zval *arr_1, *arr_2;
-	double mean_1, mean_2, covar;
+	double mean_1, mean_2, covar = 0.0;
 	zval **entry;
 	HashPosition pos_1, pos_2;
 	int elements_num, i = 0;
