@@ -3288,7 +3288,7 @@ PHP_FUNCTION(stats_stat_percentile)
 	double perc;
 	double low;
 	double upp;
-	double val;
+	double val = 0.0;
 
 	if (ZEND_NUM_ARGS() != 2 || zend_get_parameters_ex(2, &arg1, &arg2) == FAILURE) {
 		WRONG_PARAM_COUNT;
