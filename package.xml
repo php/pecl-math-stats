@@ -1,89 +1,62 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <package version="1.0">
- <name>stats</name>
- <summary>Extension with routines for statistical computation.</summary>
- <description>
+  <name>stats</name>
+  <summary>Extension with routines for statistical computation.</summary>
+  <description>
   Extension that provides few dozens routines for statistical computation.
  </description>
- <license>PHP License</license>
- <maintainers>
-  <maintainer>
-   <user>andrey</user>
-   <name>Andrey Hristov</name>
-   <email>andrey_php_net</email>
-   <role>lead</role>
-  </maintainer>
- </maintainers>
-
- <release>
-  <version>1.0.1</version>
-  <date>2005-11-24</date>
   <license>PHP License</license>
-  <state>stable</state>
-  <notes>
+  <maintainers>
+    <maintainer>
+      <user>andrey</user>
+      <name>Andrey Hristov</name>
+      <email>andrey_php_net</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>1.0.1</version>
+    <date>2005-11-24</date>
+    <license>PHP License</license>
+    <state>stable</state>
+    <notes>
     Shared module build fixed.
   </notes>
-  <filelist>
-   <dir name="/" baseinstalldir="stats" role="src">
-    <file name="cdflib.h" role="src" />
-    <file name="com.c" role="src" />
-    <file name="dcdflib.c" role="src" />
-    <file name="ipmpar.c" role="src" />
-    <file name="linpack.c" role="src" />
-    <file name="php_statistics.h" role="src" />
-    <file name="randlib.c" role="src" />
-    <file name="randlib.h" role="src" />
-    <file name="statistics.c" role="src" />
-
-    <file name="config.m4" role="src" />
-    <file name="config.w32" role="src" />
-    <file name="TODO" role="doc" />
-    <file name="CREDITS" role="doc" />
-   </dir>
-   <dir name="tests" role="test">
-    <file name="common.php" role="test" />
-    <file name="math_abs_dev.phpt" role="test" />
-    <file name="math_covariance.phpt" role="test" />
-    <file name="math_harmonic_mean.phpt" role="test" />
-    <file name="math_skew_kurtosis.phpt" role="test" />
-    <file name="math_std_dev.phpt" role="test" />
-   </dir>
-  </filelist>
- </release>
-
- <release>
-  <version>1.0.0</version>
-  <date>2005-11-24</date>
-  <license>PHP License</license>
-  <state>stable</state>
-  <notes>
+    <filelist>
+      <dir name="/" baseinstalldir="stats" role="src">
+        <file name="cdflib.h" role="src"/>
+        <file name="com.c" role="src"/>
+        <file name="dcdflib.c" role="src"/>
+        <file name="ipmpar.c" role="src"/>
+        <file name="linpack.c" role="src"/>
+        <file name="php_statistics.h" role="src"/>
+        <file name="randlib.c" role="src"/>
+        <file name="randlib.h" role="src"/>
+        <file name="statistics.c" role="src"/>
+        <file name="config.m4" role="src"/>
+        <file name="config.w32" role="src"/>
+        <file name="TODO" role="doc"/>
+        <file name="CREDITS" role="doc"/>
+      </dir>
+      <dir name="tests" role="test">
+        <file name="common.php" role="test"/>
+        <file name="math_abs_dev.phpt" role="test"/>
+        <file name="math_covariance.phpt" role="test"/>
+        <file name="math_harmonic_mean.phpt" role="test"/>
+        <file name="math_skew_kurtosis.phpt" role="test"/>
+        <file name="math_std_dev.phpt" role="test"/>
+      </dir>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>1.0.0</version>
+      <date>2005-11-24</date>
+      <license>PHP License</license>
+      <state>stable</state>
+      <notes>
     Initial release.
   </notes>
-  <filelist>
-   <dir name="/" baseinstalldir="stats" role="src">
-    <file name="cdflib.h" role="src" />
-    <file name="com.c" role="src" />
-    <file name="dcdflib.c" role="src" />
-    <file name="ipmpar.c" role="src" />
-    <file name="linpack.c" role="src" />
-    <file name="php_statistics.h" role="src" />
-    <file name="randlib.c" role="src" />
-    <file name="randlib.h" role="src" />
-    <file name="statistics.c" role="src" />
-
-    <file name="config.m4" role="src" />
-    <file name="config.w32" role="src" />
-    <file name="TODO" role="doc" />
-    <file name="CREDITS" role="doc" />
-   </dir>
-   <dir name="tests" role="test">
-    <file name="common.php" role="test" />
-    <file name="math_abs_dev.phpt" role="test" />
-    <file name="math_covariance.phpt" role="test" />
-    <file name="math_harmonic_mean.phpt" role="test" />
-    <file name="math_skew_kurtosis.phpt" role="test" />
-    <file name="math_std_dev.phpt" role="test" />
-   </dir>
-  </filelist>
- </release>
+    </release>
+  </changelog>
 </package>
