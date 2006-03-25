@@ -133,7 +133,7 @@ zend_module_entry stats_module_entry = {
 	STANDARD_MODULE_PROPERTIES,
 };
 
-#ifdef COMPILE_DL_STATISTICS
+#ifdef COMPILE_DL_STATS
 ZEND_GET_MODULE(stats)
 #endif
 
