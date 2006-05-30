@@ -38,6 +38,7 @@
 
 
 #ifdef PHP_WIN32
+extern double fd_lgamma(double x);
 #define lgamma fd_lgamma
 #endif
 
