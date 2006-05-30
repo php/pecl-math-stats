@@ -37,6 +37,10 @@
 #define STATS_PI 3.14159265358979323846
 
 
+#ifdef PHP_WIN32
+#define lgamma fd_lgamma
+#endif
+
 static double logistic_quantile(double p);
 static double logistic_cdf(double x);
 static double cauchy_quantile(double p);
@@ -2733,7 +2737,6 @@ PHP_FUNCTION(stats_dens_logistic)
 	Not documented */
 PHP_FUNCTION(stats_dens_beta)
 {
-#ifndef PHP_WIN32
 	double a;
 	double b;
 	double beta;
@@ -2748,9 +2751,6 @@ PHP_FUNCTION(stats_dens_beta)
 	y = beta * pow(x, a - 1.0) * pow(1.0 - x, b - 1.0);
 
 	RETURN_DOUBLE(y);
-#endif
-	php_error_docref(NULL TSRMLS_CC, E_WARNING, "This function is not currently supported on the Win32 platform");
-	RETURN_FALSE;
 }
 /* }}} */
 
@@ -2811,7 +2811,6 @@ PHP_FUNCTION(stats_dens_uniform)
 	Not documented */
 PHP_FUNCTION(stats_dens_chisquare)
 {
-#ifndef PHP_WIN32
 	double dfr;
 	double e;
 	double x;
@@ -2828,10 +2827,6 @@ PHP_FUNCTION(stats_dens_chisquare)
 	y = exp (z);
 
 	RETURN_DOUBLE(y);
-
-#endif
-	php_error_docref(NULL TSRMLS_CC, E_WARNING, "This function is not currently supported on the Win32 platform");
-	RETURN_FALSE;
 }
 /* }}} */
 
@@ -2839,7 +2834,6 @@ PHP_FUNCTION(stats_dens_chisquare)
 	Not documented */
 PHP_FUNCTION(stats_dens_t)
 {
-#ifndef PHP_WIN32
 	double dfr;
 	double e;
 	double f;
@@ -2864,10 +2858,6 @@ PHP_FUNCTION(stats_dens_t)
 	fac3 = lgamma(e) + 0.5 * log(dfr * STATS_PI);
 
 	RETURN_DOUBLE(exp( fac1 - (fac2 + fac3) ));
-	
-#endif
-	php_error_docref(NULL TSRMLS_CC, E_WARNING, "This function is not currently supported on the Win32 platform");
-	RETURN_FALSE;
 }
 /* }}} */
 
@@ -2875,7 +2865,6 @@ PHP_FUNCTION(stats_dens_t)
 	Not documented */
 PHP_FUNCTION(stats_dens_gamma)
 {
-#ifndef PHP_WIN32
 	double shape;
 	double scale;
 	double x;
@@ -2897,9 +2886,6 @@ PHP_FUNCTION(stats_dens_gamma)
 		;
 
 	RETURN_DOUBLE(exp(z));
-#endif
-	php_error_docref(NULL TSRMLS_CC, E_WARNING, "This function is not currently supported on the Win32 platform");
-	RETURN_FALSE;
 }
 /* }}} */
 
@@ -2934,7 +2920,6 @@ PHP_FUNCTION(stats_dens_exponential)
 	*/
 PHP_FUNCTION(stats_dens_f)
 {
-#ifndef PHP_WIN32
 	double dfr1;
 	double dfr2;
 	double efr1;
@@ -2960,9 +2945,6 @@ PHP_FUNCTION(stats_dens_f)
 	z = (fac1 + fac3) - (fac2 + fac4);
 
 	RETURN_DOUBLE(exp(z));
-#endif
-	php_error_docref(NULL TSRMLS_CC, E_WARNING, "This function is not currently supported on the Win32 platform");
-	RETURN_FALSE;
 }
 /* }}} */
 
@@ -3011,7 +2993,6 @@ PHP_FUNCTION(stats_dens_pmf_binomial)
 	Not documented */
 PHP_FUNCTION(stats_dens_pmf_poisson)
 {
-#ifndef PHP_WIN32
 	double lb;
 	double z;
 	double x;
@@ -3023,9 +3004,6 @@ PHP_FUNCTION(stats_dens_pmf_poisson)
 	z = (x * log(lb)) - (lb + lgamma(x + 1.0));
 
 	RETURN_DOUBLE(exp(z));
-#endif
-	php_error_docref(NULL TSRMLS_CC, E_WARNING, "This function is not currently supported on the Win32 platform");
-	RETURN_FALSE;
 }	
 /* }}} */
 
