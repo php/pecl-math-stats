@@ -2779,7 +2779,7 @@ PHP_FUNCTION(stats_dens_weibull)
 }
 /* }}} */
 
-/* {{{ proto float stats_den_uniform(float x, float a, float b)
+/* {{{ proto float stats_dens_uniform(float x, float a, float b)
 	Not documented */
 PHP_FUNCTION(stats_dens_uniform)
 {
