@@ -134,7 +134,7 @@ zend_module_entry stats_module_entry = {
  	NULL,
  	NULL,
  	PHP_MINFO(stats),
- 	"1.1",
+ 	PHP_STATS_VERSION,
 	STANDARD_MODULE_PROPERTIES,
 };
 
@@ -146,7 +146,8 @@ ZEND_GET_MODULE(stats)
 PHP_MINFO_FUNCTION(stats)
 {
 	php_info_print_table_start();
-	php_info_print_table_row(2, "Statistics Support", "enabled");
+	php_info_print_table_header(2, "Statistics Support", "enabled");
+	php_info_print_table_row(2, "Version", PHP_STATS_VERSION);
 	php_info_print_table_end();
 }
 
