@@ -4,6 +4,6 @@
 ARG_ENABLE("stats", "statistics support", "no");
 
 if (PHP_STATS != "no") {
-	EXTENSION('stats', 'statistics.c com.c dcdflib.c ipmpar.c linpack.c randlib.c fd_e_lgamma_r.c fd_e_log.c fd_k_cos.c fd_k_sin.c fd_w_lgamma.c');
+	EXTENSION('stats', 'php_stats.c com.c dcdflib.c ipmpar.c linpack.c randlib.c fd_e_lgamma_r.c fd_e_log.c fd_k_cos.c fd_k_sin.c fd_w_lgamma.c');
 }
 

@@ -52,10 +52,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <file name="fd_w_lgamma.c" role="src" />
    <file name="ipmpar.c" role="src" />
    <file name="linpack.c" role="src" />
-   <file name="php_statistics.h" role="src" />
+   <file name="php_stats.h" role="src" />
    <file name="randlib.c" role="src" />
    <file name="randlib.h" role="src" />
-   <file name="statistics.c" role="src" />
+   <file name="php_stats.c" role="src" />
    <file name="TODO" role="doc" />
   </dir> <!-- / -->
  </contents>

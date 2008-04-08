@@ -24,7 +24,7 @@
 #endif
 
 #include "php.h"
-#include "php_statistics.h"
+#include "php_stats.h"
 #include "ext/standard/info.h"
 #include "ext/standard/head.h"
 #include <stdlib.h>

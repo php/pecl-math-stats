@@ -18,8 +18,8 @@
 
 /* $Id$ */
 
-#ifndef PHP_STATISTICS_H
-#define PHP_STATISTICS_H
+#ifndef PHP_STATS_H
+#define PHP_STATS_H
 
 extern zend_module_entry stats_module_entry;
 #define phpext_stats_ptr &stats_module_entry
@@ -117,7 +117,7 @@ PHP_FUNCTION(stats_covariance);
 #define STATS_FETCH()
 #endif
 
-#endif	/* PHP_STATISTICS_H */
+#endif	/* PHP_STATS_H */
 
 
 /*
