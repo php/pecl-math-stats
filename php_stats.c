@@ -163,15 +163,15 @@ static int stats_array_data_compare(const void *a, const void *b TSRMLS_DC)
 {
 	Bucket *f;
 	Bucket *s;
-	pval result;
-	pval *first;
-	pval *second;
+	zval result;
+	zval *first;
+	zval *second;
  
 	f = *((Bucket **) a);
 	s = *((Bucket **) b);
  
-	first = *((pval **) f->pData);
-	second = *((pval **) s->pData);
+	first = *((zval **) f->pData);
+	second = *((zval **) s->pData);
 
 	if (numeric_compare_function(&result, first, second TSRMLS_CC) == FAILURE) {
 		return 0;
