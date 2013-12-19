@@ -670,7 +670,7 @@ PHP_FUNCTION(stats_cdf_gamma)
      produces  the desired  value  of P.   The search relies  on  the
      monotinicity of P with the other parameter.
 *****************************************************************/		
-/* {{{ proto float stats_cdf_chisquare(float par1, float par2, float par3, int which)
+/* {{{ proto float stats_cdf_chisquare(float par1, float par2, int which)
 	Calculates any one parameter of the chi-square distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_chisquare)
 {	
