@@ -2,7 +2,6 @@
 stats_standard_deviation()/stats_variance tests
 --FILE--
 <?php
-include 'common.php';
 $a=array(4, 1, 7);
 $dev=stats_standard_deviation($a);
 var_dump(sprintf("%2.9f", $dev));

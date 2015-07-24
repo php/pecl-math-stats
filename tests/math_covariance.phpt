@@ -2,7 +2,6 @@
 math_covariance() tests
 --FILE--
 <?php
-include 'common.php';
 $a_1 = array(
  15, 16, 8, 6, 15, 12, 12, 18, 12, 20, 12, 14,
 );

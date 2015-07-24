@@ -2,7 +2,6 @@
 stats_absolute_deviation()
 --FILE--
 <?php
-include 'common.php';
 var_dump(sprintf("%2.9f", stats_absolute_deviation(array(4,1,7))));
 var_dump(sprintf("%2.9f", stats_absolute_deviation(array(2,1,3))));
 var_dump(stats_absolute_deviation(array()));
