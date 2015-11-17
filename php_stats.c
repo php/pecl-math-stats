@@ -163,7 +163,7 @@ static int stats_array_data_compare(const void *a, const void *b TSRMLS_DC)
 {
 	Bucket *f;
 	Bucket *s;
-	zval result;
+	int result;
 	zval first;
 	zval second;
 
@@ -173,25 +173,11 @@ static int stats_array_data_compare(const void *a, const void *b TSRMLS_DC)
 	first = f->val;
 	second = s->val;
 
-	if (numeric_compare_function(&result, &first, &second TSRMLS_CC) == FAILURE) {
-		return 0;
-	}
+	result = numeric_compare_function(&first, &second TSRMLS_CC);
 
-	if (Z_TYPE(result) == IS_DOUBLE) {
-		if (Z_DVAL(result) < 0) {
-			return -1;
-		} else if (Z_DVAL(result) > 0) {
-			return 1;
-		} else {
-			return 0;
-		}
-	}
-
-	convert_to_long(&result);
-
-	if (Z_LVAL(result) < 0) {
+	if (result < 0) {
 		return -1;
-	} else if (Z_LVAL(result) > 0) {
+	} else if (result > 0) {
 		return 1;
 	}
 
