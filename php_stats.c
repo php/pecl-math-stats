@@ -264,7 +264,7 @@ PHP_FUNCTION(stats_cdf_t)
 	double p;
 	double q;
 	double t;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ddl", &arg1, &arg2, &which) == FAILURE) {
@@ -394,7 +394,7 @@ PHP_FUNCTION(stats_cdf_normal)
 	double q;
 	double x;
 	double mean;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
@@ -540,7 +540,7 @@ PHP_FUNCTION(stats_cdf_gamma)
 	double x;
 	double shape;
 	double scale;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -667,7 +667,7 @@ PHP_FUNCTION(stats_cdf_chisquare)
 	double q;
 	double x;
 	double df;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -804,7 +804,7 @@ PHP_FUNCTION(stats_cdf_beta)
 	double y;
 	double a;
 	double b;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -944,7 +944,7 @@ PHP_FUNCTION(stats_cdf_binomial)
 	double sn;
 	double pr;
 	double ompr;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -1084,7 +1084,7 @@ PHP_FUNCTION(stats_cdf_noncentral_chisquare)
 	double x;
 	double df;
 	double pnonc;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -1218,7 +1218,7 @@ PHP_FUNCTION(stats_cdf_f)
 	double q;
 	double f;
 	double dfd;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -1366,7 +1366,7 @@ PHP_FUNCTION(stats_cdf_noncentral_f)
 	double dfd;
 	double pnonc;
 	double bound;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -1500,7 +1500,7 @@ PHP_FUNCTION(stats_cdf_noncentral_t)
 	double q;
 	double t;
 	double df;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -1645,7 +1645,7 @@ PHP_FUNCTION(stats_cdf_negative_binomial)
 	double xn;
 	double pr;
 	double ompr;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -1768,7 +1768,7 @@ PHP_FUNCTION(stats_cdf_poisson)
 	double x;
 	double xlam;
 	double bound;
-	long which;
+	zend_long which;
 	int status = 0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
@@ -1841,7 +1841,7 @@ PHP_FUNCTION(stats_cdf_laplace)
 	double t;
 	double mean;
 	double sd;
-	long which;
+	zend_long which;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
@@ -1911,7 +1911,7 @@ PHP_FUNCTION(stats_cdf_cauchy)
 	double t;
 	double mean;
 	double sd;
-	long which;
+	zend_long which;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
@@ -1980,7 +1980,7 @@ PHP_FUNCTION(stats_cdf_logistic)
 	double x;
 	double t;
 	double mean;
-	long which;
+	zend_long which;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
@@ -2038,7 +2038,7 @@ PHP_FUNCTION(stats_cdf_weibull)
 	double x;
 	double a;
 	double b;
-	long which;
+	zend_long which;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
@@ -2094,7 +2094,7 @@ PHP_FUNCTION(stats_cdf_uniform)
 	double x;
 	double a;
 	double b;
-	long which;
+	zend_long which;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
@@ -2169,7 +2169,7 @@ PHP_FUNCTION(stats_cdf_exponential)
 	double p;
 	double x;
 	double scale;
-	long which;
+	zend_long which;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
 						"ddl", &arg1, &arg2, &which) == FAILURE) {
@@ -2211,8 +2211,8 @@ PHP_FUNCTION(stats_cdf_exponential)
 	Not documented */
 PHP_FUNCTION(stats_rand_setall)
 {
-	long iseed_1;
-	long iseed_2;
+	zend_long iseed_1;
+	zend_long iseed_2;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ll", &iseed_1, &iseed_2) == FAILURE) {
 		RETURN_FALSE;
@@ -2226,8 +2226,8 @@ PHP_FUNCTION(stats_rand_setall)
 	Not documented */
 PHP_FUNCTION(stats_rand_getsd)
 {
-	long iseed_1;
-	long iseed_2;
+	zend_long iseed_1;
+	zend_long iseed_2;
 
 	if (ZEND_NUM_ARGS() != 0) {
 		WRONG_PARAM_COUNT;
@@ -2244,8 +2244,8 @@ PHP_FUNCTION(stats_rand_getsd)
    Generates integer uniformly distributed between LOW (inclusive) and HIGH (inclusive)  */
 PHP_FUNCTION(stats_rand_gen_iuniform)
 {
-	long low;
-	long high;
+	zend_long low;
+	zend_long high;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ll", &low, &high) == FAILURE) {
 		RETURN_FALSE;
@@ -2495,7 +2495,7 @@ PHP_FUNCTION(stats_rand_phrase_to_seeds)
 	Generates a single random deviate from a binomial distribution whose number of trials is "n" (n >= 0) and whose probability of an event in each trial is "pp" ([0;1]). Method : algorithm BTPE */
 PHP_FUNCTION(stats_rand_ibinomial)
 {
-	long n;
+	zend_long n;
 	double pp;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ld", &n, &pp) == FAILURE) {
@@ -2515,7 +2515,7 @@ PHP_FUNCTION(stats_rand_ibinomial)
 	Generates a single random deviate from a negative binomial distribution. Arguments : n - the number of trials in the negative binomial distribution from which a random deviate is to be generated (n > 0), p - the probability of an event (0 < p < 1)). */
 PHP_FUNCTION(stats_rand_ibinomial_negative)
 {
-	long n;
+	zend_long n;
 	double p;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ld", &n, &p) == FAILURE) {
@@ -3364,8 +3364,8 @@ PHP_FUNCTION(stats_stat_correlation)
 PHP_FUNCTION(stats_stat_binomial_coef)
 {
 	int i;
-	int n;
-	int x;
+	zend_long n;
+	zend_long x;
 	double bc = 1.0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ll", &x, &n) == FAILURE) {
@@ -3384,7 +3384,7 @@ PHP_FUNCTION(stats_stat_binomial_coef)
 	Not documented */
 PHP_FUNCTION(stats_stat_factorial)
 {
-	int n;
+	zend_long n;
 	int i;
 	double f = 1;
 
