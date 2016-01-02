@@ -24,7 +24,7 @@
 extern zend_module_entry stats_module_entry;
 #define phpext_stats_ptr &stats_module_entry
 
-#define PHP_STATS_VERSION "2.0.1"
+#define PHP_STATS_VERSION "2.0.1-dev"
 
 #ifdef PHP_WIN32
 #define PHP_STATS_API __declspec(dllexport)
@@ -37,7 +37,7 @@ PHP_MINFO_FUNCTION(stats);
 
 PHP_FUNCTION(stats_bin_counts);
 PHP_FUNCTION(stats_cdf_t);
-PHP_FUNCTION(stats_cdf_normal); 
+PHP_FUNCTION(stats_cdf_normal);
 PHP_FUNCTION(stats_cdf_gamma);
 PHP_FUNCTION(stats_cdf_chisquare);
 PHP_FUNCTION(stats_cdf_beta);
@@ -54,8 +54,8 @@ PHP_FUNCTION(stats_cdf_logistic);
 PHP_FUNCTION(stats_cdf_weibull);
 PHP_FUNCTION(stats_cdf_uniform);
 PHP_FUNCTION(stats_cdf_exponential);
-PHP_FUNCTION(stats_rand_setall); 
-PHP_FUNCTION(stats_rand_getsd); 
+PHP_FUNCTION(stats_rand_setall);
+PHP_FUNCTION(stats_rand_getsd);
 PHP_FUNCTION(stats_rand_gen_iuniform);
 PHP_FUNCTION(stats_rand_gen_funiform);
 PHP_FUNCTION(stats_rand_ignlgi);
