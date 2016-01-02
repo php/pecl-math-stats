@@ -14,24 +14,27 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>andrey_php_net</email>
   <active>yes</active>
  </lead>
- <date>2006-05-31</date>
- <time>18:55:52</time>
+ <lead>
+  <name>Sean DuBois</name>
+  <user>SeanDer</user>
+  <email>seande@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2016-01-02</date>
  <version>
-  <release>1.0.2</release>
-  <api>1.0.2</api>
+  <release>2.0.0</release>
+  <api>2.0.0</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>Added fd_lgamma from FDLibM, so now all functions are also available on Windows.
- Previously some were disabled because Microsoft does not ship lgamma with their C library.
+ <notes>PHP 7 Support
  </notes>
  <contents>
   <dir name="/">
    <dir name="tests">
-    <file name="common.php" role="test" />
     <file name="math_abs_dev.phpt" role="test" />
     <file name="math_covariance.phpt" role="test" />
     <file name="math_harmonic_mean.phpt" role="test" />
@@ -62,7 +65,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <dependencies>
   <required>
    <php>
-    <min>4.0.0</min>
+    <min>7.0.0</min>
    </php>
    <pearinstaller>
     <min>1.4.0</min>
@@ -72,6 +75,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <providesextension>stats</providesextension>
  <extsrcrelease />
  <changelog>
+
   <release>
    <version>
     <release>1.0.0</release>
@@ -86,6 +90,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <notes>Initial release.
    </notes>
   </release>
+
   <release>
    <version>
     <release>1.0.1</release>
@@ -100,5 +105,36 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <notes>Fixed shared build.
    </notes>
   </release>
+
+  <release>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-5-31</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes> Added fd_lgamma from FDLibM, so now all functions are also available on Windows.
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>1.0.3</release>
+    <api>1.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-12-10</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Release fixed for PHP 5.4
+   </notes>
+  </release>
+
  </changelog>
 </package>
