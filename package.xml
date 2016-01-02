@@ -22,15 +22,15 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </lead>
  <date>2016-01-02</date>
  <version>
-  <release>2.0.0-dev</release>
-  <api>2.0.0-dev</api>
+  <release>2.0.1</release>
+  <api>2.0.1</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>PHP 7 Support
+ <notes>Update License to PHP 3.1, fixes #65884
  </notes>
  <contents>
   <dir name="/">
@@ -60,6 +60,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <file name="randlib.h" role="src" />
    <file name="php_stats.c" role="src" />
    <file name="TODO" role="doc" />
+   <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -133,6 +134,21 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <date>2012-12-10</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>Release fixed for PHP 5.4
+   </notes>
+ </release>
+
+  <release>
+   <version>
+    <release>2.0.0</release>
+    <api>2.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-01-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>PHP 7 Support
    </notes>
   </release>
 
