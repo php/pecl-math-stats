@@ -167,8 +167,8 @@ static int stats_array_data_compare(const void *a, const void *b TSRMLS_DC)
 	zval first;
 	zval second;
 
-	f = *((Bucket **) a);
-	s = *((Bucket **) b);
+	f = (Bucket *) a;
+	s = (Bucket *) b;
 
 	first = f->val;
 	second = s->val;
