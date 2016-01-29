@@ -6,14 +6,10 @@ stats_cdf_chisquare()
 var_dump(round(stats_cdf_chisquare(1, 2, 1), 6));
 
 // which = 2 : calculate X from (P, DF)
-// NOT WORKED
-// var_dump(round(stats_cdf_chisquare(0.393469340, 2, 2), 6));
-echo "float(1)\n";
+var_dump(round(stats_cdf_chisquare(0.393469340, 2, 2), 6));
 
 // which = 3 : calculate DF from (P, X)
-// NOT WORKED
-// var_dump(round(stats_cdf_chisquare(0.393469340, 1, 3), 6));
-echo "float(2)\n";
+var_dump(round(stats_cdf_chisquare(0.393469340, 1, 3), 6));
 
 // error cases
 var_dump(stats_cdf_chisquare(1, 2, 0));     // which < 1

@@ -6,19 +6,13 @@ stats_cdf_f()
 var_dump(round(stats_cdf_f(1, 3, 2, 1), 6));
 
 // which = 2 : calculate F from (P, DFN, DFD)
-// NOT WORKED
-// var_dump(round(stats_cdf_f(0.464758002, 3, 2, 2), 6));
-echo "float(1)\n";
+var_dump(round(stats_cdf_f(0.464758002, 3, 2, 2), 6));
 
 // which = 3 : calculate DFN from (P, F, DFD)
-// NOT WORKED
-// var_dump(round(stats_cdf_f(0.464758002, 1, 2, 3), 6));
-echo "float(3)\n";
+var_dump(round(stats_cdf_f(0.464758002, 1, 2, 3), 6));
 
 // which = 4 : calculate DFD from (P, F, DFN)
-// NOT WORKED
-// var_dump(round(stats_cdf_f(0.464758002, 1, 3, 4), 6));
-echo "float(2)\n";
+var_dump(round(stats_cdf_f(0.464758002, 1, 3, 4), 6));
 
 // error cases
 var_dump(stats_cdf_f(1, 3, 2, 0));      // which < 1

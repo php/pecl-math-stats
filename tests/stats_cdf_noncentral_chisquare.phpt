@@ -6,19 +6,13 @@ stats_cdf_noncentral_chisquare()
 var_dump(round(stats_cdf_noncentral_chisquare(4, 2, 3, 1), 6));
 
 // which = 2 : calculate X from (P, DF, PNONC)
-// NOT WORKED
-// var_dump(round(stats_cdf_noncentral_chisquare(0.493562417, 2, 3, 2), 6));
-echo "float(4)\n";
+var_dump(round(stats_cdf_noncentral_chisquare(0.493562417, 2, 3, 2), 6));
 
 // which = 3 : calculate DF from (P, X, PNONC)
-// NOT WORKED
-// var_dump(round(stats_cdf_noncentral_chisquare(0.493562417, 4, 3, 3), 6));
-echo "float(2)\n";
+var_dump(round(stats_cdf_noncentral_chisquare(0.493562417, 4, 3, 3), 6));
 
 // which = 4 : calculate PNONC from (P, X, DF)
-// NOT WORKED
-// var_dump(round(stats_cdf_noncentral_chisquare(0.493562417, 4, 2, 4), 6));
-echo "float(3)\n";
+var_dump(round(stats_cdf_noncentral_chisquare(0.493562417, 4, 2, 4), 6));
 
 // error cases
 var_dump(stats_cdf_noncentral_chisquare(4, 2, 3, 0));       // which < 1

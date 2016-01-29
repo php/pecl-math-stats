@@ -6,14 +6,10 @@ stats_cdf_t()
 var_dump(stats_cdf_t(1, 1, 1));
 
 // which = 2 : calculate T from (P, DF)
-// NOT WORKED
-// var_dump(stats_cdf_t(0.75, 1, 2));
-echo "float(1)\n";
+var_dump(stats_cdf_t(0.75, 1, 2));
 
 // which = 3 : calculate DF from (P, T)
-// NOT WORKED
-// var_dump(stats_cdf_t(0.75, 1, 3));
-echo "float(1)\n";
+var_dump(stats_cdf_t(0.75, 1, 3));
 
 // error cases
 var_dump(stats_cdf_t(1, 1, 0));     // which < 1

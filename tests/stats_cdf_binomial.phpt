@@ -6,19 +6,13 @@ stats_cdf_binomial()
 var_dump(stats_cdf_binomial(1, 3, 0.7, 1));
 
 // which = 2 : calculate S from (P, XN, PR)
-// NOT WORKED
-// var_dump(stats_cdf_binomial(0.216, 3, 0.7, 2));
-echo "float(1)\n";
+var_dump(stats_cdf_binomial(0.216, 3, 0.7, 2));
 
 // which = 3 : calculate XN from (P, S, PR)
-// NOT WORKED
-// var_dump(stats_cdf_binomial(0.216, 1, 0.7, 3));
-echo "float(3)\n";
+var_dump(stats_cdf_binomial(0.216, 1, 0.7, 3));
 
 // which = 4 : calculate PR from (P, S, XN)
-// NOT WORKED
-// var_dump(stats_cdf_binomial(0.216, 1, 3, 4));
-echo "float(0.7)\n";
+var_dump(stats_cdf_binomial(0.216, 1, 3, 4));
 
 // error cases
 var_dump(stats_cdf_binomial(1, 3, 0.7, 0));     // which < 1

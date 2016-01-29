@@ -6,24 +6,16 @@ stats_cdf_noncentral_f()
 var_dump(round(stats_cdf_noncentral_f(1, 2, 3, 4, 1), 6));
 
 // which = 2 : calculate F from (P, DFN, DFD, PNONC)
-// NOT WORKED
-// var_dump(round(stats_cdf_noncentral_f(0.185303353, 2, 3, 4, 2), 6));
-echo "float(1)\n";
+var_dump(round(stats_cdf_noncentral_f(0.185303353, 2, 3, 4, 2), 6));
 
 // which = 3 : calculate DFN from (P, F, DFD, PNONC)
-// NOT WORKED
-// var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 3, 4, 3), 6));
-echo "float(2)\n";
+var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 3, 4, 3), 6));
 
 // which = 4 : calculate DFD from (P, F, DFN, PNONC)
-// NOT WORKED
-// var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 2, 4, 4), 6));
-echo "float(3)\n";
+var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 2, 4, 4), 6));
 
 // which = 5 : calculate PNONC from (P, F, DFN, DFD)
-// NOT WORKED
-// var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 2, 3, 5), 6));
-echo "float(4)\n";
+var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 2, 3, 5), 6));
 
 // error cases
 var_dump(round(stats_cdf_noncentral_f(1, 2, 3, 4, 0), 6));      // which < 1

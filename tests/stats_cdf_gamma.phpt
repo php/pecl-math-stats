@@ -3,24 +3,16 @@ stats_cdf_gamma()
 --FILE--
 <?php
 // which = 1 : calculate P from (X, SHAPE, SCALE)
-// NOT WORKED
-// var_dump(round(stats_cdf_gamma(5, 3, 2, 1), 6));
-echo "float(0.456187)\n";
+var_dump(round(stats_cdf_gamma(5, 3, 2, 1), 6));
 
 // which = 2 : calculate X from (P, SHAPE, SCALE)
-// NOT WORKED
-// var_dump(round(stats_cdf_gamma(0.456186884, 3, 2, 2), 6));
-echo "float(5)\n";
+var_dump(round(stats_cdf_gamma(0.456186884, 3, 2, 2), 6));
 
 // which = 3 : calculate SHAPE from (P, X, SCALE)
-// NOT WORKED
-// var_dump(round(stats_cdf_gamma(0.456186884, 5, 2, 3), 6));
-echo "float(3)\n";
+var_dump(round(stats_cdf_gamma(0.456186884, 5, 2, 3), 6));
 
 // which = 4 : calculate SCALE from (P, X, SHAPE)
-// NOT WORKED
-// var_dump(round(stats_cdf_gamma(0.456186884, 5, 3, 4), 6));
-echo "float(2)\n";
+var_dump(round(stats_cdf_gamma(0.456186884, 5, 3, 4), 6));
 
 // error cases
 var_dump(stats_cdf_gamma(1, 0, 1, 0));      // which < 1

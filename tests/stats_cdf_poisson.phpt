@@ -6,14 +6,10 @@ stats_cdf_poisson()
 var_dump(round(stats_cdf_poisson(1, 2, 1), 6));
 
 // which = 2 : calculate A from (P, XLAM)
-// NOT WORKED
-// var_dump(round(stats_cdf_poisson(0.40600585, 2, 2), 6));
-echo "float(1)\n";
+var_dump(round(stats_cdf_poisson(0.40600585, 2, 2), 6));
 
 // which = 3 : calculate XLAM from (P, S)
-// NOT WORKED
-// var_dump(round(stats_cdf_poisson(0.40600585, 1, 3), 6));
-echo "float(2)\n";
+var_dump(round(stats_cdf_poisson(0.40600585, 1, 3), 6));
 
 // error cases
 var_dump(stats_cdf_poisson(1, 2, 0));       // which < 1

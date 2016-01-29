@@ -6,19 +6,14 @@ stats_cdf_beta()
 var_dump(round(stats_cdf_beta(0.5, 2, 4, 1), 6));
 
 // which = 2 : calculate X from (P, A, B)
-// NOT WORKED
+// This test is not terminated
 // var_dump(round(stats_cdf_beta(0.8125, 2, 4, 2), 6));
-echo "float(0.5)\n";
 
 // which = 3 : calculate A from (P, X, B)
-// NOT WORKED
-// var_dump(round(stats_cdf_beta(0.8125, 0.5, 4, 3), 6));
-echo "float(2)\n";
+var_dump(round(stats_cdf_beta(0.8125, 0.5, 4, 3), 6));
 
 // which = 4 : calculate B from (P, X, A)
-// NOT WORKED
-// var_dump(round(stats_cdf_beta(0.8125, 0.5, 2, 4), 6));
-echo "float(4)\n";
+var_dump(round(stats_cdf_beta(0.8125, 0.5, 2, 4), 6));
 
 // error cases
 var_dump(stats_cdf_beta(0.5, 2, 4, 0));     // which < 1
