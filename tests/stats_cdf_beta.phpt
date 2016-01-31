@@ -6,8 +6,7 @@ stats_cdf_beta()
 var_dump(round(stats_cdf_beta(0.5, 2, 4, 1), 6));
 
 // which = 2 : calculate X from (P, A, B)
-// This test is not terminated
-// var_dump(round(stats_cdf_beta(0.8125, 2, 4, 2), 6));
+var_dump(round(stats_cdf_beta(0.8125, 2, 4, 2), 6));
 
 // which = 3 : calculate A from (P, X, B)
 var_dump(round(stats_cdf_beta(0.8125, 0.5, 4, 3), 6));

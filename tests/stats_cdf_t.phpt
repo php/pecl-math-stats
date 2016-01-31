@@ -3,13 +3,13 @@ stats_cdf_t()
 --FILE--
 <?php
 // which = 1 : calculate P from (T, DF)
-var_dump(stats_cdf_t(1, 1, 1));
+var_dump(round(stats_cdf_t(1, 1, 1), 6));
 
 // which = 2 : calculate T from (P, DF)
-var_dump(stats_cdf_t(0.75, 1, 2));
+var_dump(round(stats_cdf_t(0.75, 1, 2), 6));
 
 // which = 3 : calculate DF from (P, T)
-var_dump(stats_cdf_t(0.75, 1, 3));
+var_dump(round(stats_cdf_t(0.75, 1, 3), 6));
 
 // error cases
 var_dump(stats_cdf_t(1, 1, 0));     // which < 1
