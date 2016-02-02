@@ -3,16 +3,16 @@ stats_cdf_binomial()
 --FILE--
 <?php
 // which = 1 : calculate P from (S, XN, PR)
-var_dump(stats_cdf_binomial(1, 3, 0.7, 1));
+var_dump(round(stats_cdf_binomial(1, 3, 0.7, 1), 6));
 
 // which = 2 : calculate S from (P, XN, PR)
-var_dump(stats_cdf_binomial(0.216, 3, 0.7, 2));
+var_dump(round(stats_cdf_binomial(0.216, 3, 0.7, 2), 6));
 
 // which = 3 : calculate XN from (P, S, PR)
-var_dump(stats_cdf_binomial(0.216, 1, 0.7, 3));
+var_dump(round(stats_cdf_binomial(0.216, 1, 0.7, 3), 6));
 
 // which = 4 : calculate PR from (P, S, XN)
-var_dump(stats_cdf_binomial(0.216, 1, 3, 4));
+var_dump(round(stats_cdf_binomial(0.216, 1, 3, 4), 6));
 
 // error cases
 var_dump(stats_cdf_binomial(1, 3, 0.7, 0));     // which < 1

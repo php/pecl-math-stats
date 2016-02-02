@@ -1975,7 +1975,7 @@ S320:
 /*
      Calculating S
 */
-        *s = 5.0e0;
+        *s = *xn;
         T5 = atol;
         T6 = tol;
         dstinv(&K2,xn,&K3,&K3,&K4,&T5,&T6);
