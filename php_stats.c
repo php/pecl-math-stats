@@ -2748,7 +2748,7 @@ PHP_FUNCTION(stats_dens_weibull)
 		RETURN_FALSE;
 	}
 
-	y = (a / b) * pow(x / b, a - 1.0) * exp(pow(- x / b, a));
+	y = (a / b) * pow(x / b, a - 1.0) * exp(-pow(x / b, a));
 
 	RETURN_DOUBLE(y);
 }
