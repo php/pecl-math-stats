@@ -2067,15 +2067,9 @@ PHP_FUNCTION(stats_cdf_weibull)
 		p = arg1;
 	}
 
-	if (which == 1) {
-		p = 1 - exp(-pow(x / b, a));
-	} else {
-		x = b * pow(-log(1.0 - p), 1.0 / a);
-	}
-
 	switch (which) {
-		case 1: RETURN_DOUBLE(p);
-		case 2: RETURN_DOUBLE(x);
+		case 1: RETURN_DOUBLE(1 - exp(-pow(x / b, a)));
+		case 2: RETURN_DOUBLE(b * pow(-log(1.0 - p), 1.0 / a));
 		case 3: RETURN_DOUBLE(log(-log(1.0 - p)) / log(x / b));
 		case 4: RETURN_DOUBLE(x / pow(-log(1.0 - p), 1.0 / a));
 	}
