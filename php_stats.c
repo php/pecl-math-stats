@@ -2118,12 +2118,6 @@ PHP_FUNCTION(stats_cdf_uniform)
 		p = arg1;
 	}
 
-	if (which == 1) {
-		p = 1 - exp(-pow(x / b, a));
-	} else {
-		x = b * pow(-log(1.0 - p), 1.0 / a);
-	}
-
 	switch (which) {
 		case 4: RETURN_DOUBLE((x - (1.0 - p) * a) / p);
 		case 3: RETURN_DOUBLE((x - p * b) / (1.0 - p));
