@@ -2563,7 +2563,7 @@ PHP_FUNCTION(stats_rand_gen_noncentral_t)
 /* }}} */
 
 /* {{{ proto float stats_rand_gen_t(float df)
-	Generates a single random deviate from a T distribution. df must be >= 0.0 */
+	Generates a single random deviate from a T distribution. df must be > 0.0 */
 PHP_FUNCTION(stats_rand_gen_t)
 {
 	zval *arg1;
@@ -2576,7 +2576,7 @@ PHP_FUNCTION(stats_rand_gen_t)
 	convert_to_double_ex(arg1);
 	df = Z_DVAL_P(arg1);
 
-	if (df < 0.0) {
+	if (df <= 0.0) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "df <= 0 . df : %16.6E", df);
 		RETURN_FALSE;
 	}

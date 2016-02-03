@@ -13,3 +13,6 @@ bool(true)
 
 Warning: stats_rand_gen_t(): df <= 0 . df :     -1.000000E-1 in %s on line %d
 bool(false)
+
+Warning: stats_rand_gen_t(): df <= 0 . df :      0.000000E+0 in %s on line %d
+bool(false)
