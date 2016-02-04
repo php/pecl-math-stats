@@ -35,3 +35,9 @@ bool(false)
 
 Warning: stats_cdf_uniform(): Fourth parameter should be in the 1..4 range in %s on line %d
 bool(false)
+
+Warning: stats_cdf_uniform(): p is out of range. p :     -1.000000E-1 in %s on line %d
+bool(false)
+
+Warning: stats_cdf_uniform(): p is out of range. p :      1.100000E+0 in %s on line %d
+bool(false)

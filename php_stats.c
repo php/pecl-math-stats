@@ -2118,6 +2118,11 @@ PHP_FUNCTION(stats_cdf_uniform)
 		p = arg1;
 	}
 
+	if (which > 1 && (p < 0.0F || p > 1.0F)) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "p is out of range. p : %16.6E", p);
+		RETURN_FALSE;
+	}
+
 	switch (which) {
 		case 4: RETURN_DOUBLE((x - (1.0 - p) * a) / p);
 		case 3: RETURN_DOUBLE((x - p * b) / (1.0 - p));
