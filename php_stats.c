@@ -540,6 +540,7 @@ PHP_FUNCTION(stats_cdf_gamma)
 	double x;
 	double shape;
 	double scale;
+	double rate;
 	zend_long which;
 	int status = 0;
 
@@ -572,7 +573,15 @@ PHP_FUNCTION(stats_cdf_gamma)
 		q = 1.0 - p;
 	}
 
-	cdfgam((int *)&which, &p, &q, &x, &shape, &scale, &status, &bound);
+	if (which < 4) {
+		if (scale != 0) {
+			rate = 1 / scale;
+		} else {
+			rate = 0;
+		}
+	}
+
+	cdfgam((int *)&which, &p, &q, &x, &shape, &rate, &status, &bound);
 	if (status != 0) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error");
 		RETURN_FALSE;
@@ -582,7 +591,7 @@ PHP_FUNCTION(stats_cdf_gamma)
 	  	case 1: RETURN_DOUBLE(p);
 	  	case 2: RETURN_DOUBLE(x);
 	  	case 3: RETURN_DOUBLE(shape);
-	  	case 4: RETURN_DOUBLE(scale);
+	  	case 4: RETURN_DOUBLE(1 / rate);
 	}
 	RETURN_FALSE; /* should never be reached */
 }
