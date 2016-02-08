@@ -3,19 +3,19 @@ stats_cdf_noncentral_f()
 --FILE--
 <?php
 // which = 1 : calculate P from (F, DFN, DFD, PNONC)
-var_dump(round(stats_cdf_noncentral_f(1, 2, 3, 4, 1), 6));
+var_dump(round(stats_cdf_noncentral_f(5, 2, 3, 4, 1), 6));
 
 // which = 2 : calculate F from (P, DFN, DFD, PNONC)
-var_dump(round(stats_cdf_noncentral_f(0.185303353, 2, 3, 4, 2), 6));
+var_dump(round(stats_cdf_noncentral_f(0.650459043, 2, 3, 4, 2), 6));
 
 // which = 3 : calculate DFN from (P, F, DFD, PNONC)
-var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 3, 4, 3), 6));
+var_dump(round(stats_cdf_noncentral_f(0.650459043, 5, 3, 4, 3), 6));
 
 // which = 4 : calculate DFD from (P, F, DFN, PNONC)
-var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 2, 4, 4), 6));
+var_dump(round(stats_cdf_noncentral_f(0.650459043, 5, 2, 4, 4), 6));
 
 // which = 5 : calculate PNONC from (P, F, DFN, DFD)
-var_dump(round(stats_cdf_noncentral_f(0.185303353, 1, 2, 3, 5), 6));
+var_dump(round(stats_cdf_noncentral_f(0.650459043, 5, 2, 3, 5), 6));
 
 // error cases
 var_dump(round(stats_cdf_noncentral_f(1, 2, 3, 4, 0), 6));      // which < 1
@@ -31,8 +31,8 @@ var_dump(round(stats_cdf_noncentral_f(1, 2, 3, -0.1, 1), 6));   // PNONC < 0
 
 ?>
 --EXPECTF--
-float(0.185303)
-float(1)
+float(0.650459)
+float(5)
 float(2)
 float(3)
 float(4)
