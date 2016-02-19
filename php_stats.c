@@ -3245,7 +3245,7 @@ PHP_FUNCTION(stats_stat_percentile)
 	double upp;
 	double val = 0.0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
