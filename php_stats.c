@@ -3058,7 +3058,7 @@ PHP_FUNCTION(stats_stat_powersum)
 	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arg1), &pos);
 	while ((data = zend_hash_get_current_data_ex(Z_ARRVAL_P(arg1), &pos)) != NULL) {
 		convert_to_double_ex(data);
-		if (Z_DVAL_P(data) != 0 && power != 0) {
+		if (Z_DVAL_P(data) != 0 || power != 0) {
 			sum += pow (Z_DVAL_P(data), power);
 		} else {
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Both value and power are zero");
