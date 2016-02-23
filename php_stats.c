@@ -3047,7 +3047,7 @@ PHP_FUNCTION(stats_stat_powersum)
 	double power;
 	double sum = 0.0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -3081,7 +3081,7 @@ PHP_FUNCTION(stats_stat_innerproduct)
 	double sum = 0.0;
 
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 	convert_to_array_ex(arg1);
@@ -3130,7 +3130,7 @@ PHP_FUNCTION(stats_stat_independent_t)
 	double fc;
 	double ts;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 	convert_to_array_ex(arg1);
@@ -3189,7 +3189,7 @@ PHP_FUNCTION(stats_stat_paired_t)
 	double ts;
 	double cur;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 	convert_to_array_ex(arg1);
@@ -3316,7 +3316,7 @@ PHP_FUNCTION(stats_stat_correlation)
 	double cc;
 	double rr;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -3461,7 +3461,7 @@ PHP_FUNCTION(stats_variance)
 	zval *arr;
 	zend_bool sample = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a|b",  &arr, &sample) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/|b",  &arr, &sample) == FAILURE) {
 		return;
 	}
 	if (zend_hash_num_elements(Z_ARRVAL_P(arr)) == 0) {
@@ -3483,7 +3483,7 @@ PHP_FUNCTION(stats_standard_deviation)
 	zval *arr;
 	zend_bool sample = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a|b",  &arr, &sample) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/|b",  &arr, &sample) == FAILURE) {
 		return;
 	}
 	if (zend_hash_num_elements(Z_ARRVAL_P(arr)) == 0) {
@@ -3509,7 +3509,7 @@ PHP_FUNCTION(stats_absolute_deviation)
 	HashPosition pos;
 	int elements_num;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a",  &arr) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/",  &arr) == FAILURE) {
 		return;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr))) == 0) {
@@ -3539,7 +3539,7 @@ PHP_FUNCTION(stats_harmonic_mean)
 	HashPosition pos;
 	int elements_num;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a",  &arr) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/",  &arr) == FAILURE) {
 		return;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr))) == 0) {
@@ -3571,7 +3571,7 @@ PHP_FUNCTION(stats_skew)
 	HashPosition pos;
 	int elements_num, i = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a",  &arr) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/",  &arr) == FAILURE) {
 		return;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr))) == 0) {
@@ -3609,7 +3609,7 @@ PHP_FUNCTION(stats_kurtosis)
 	HashPosition pos;
 	int elements_num, i = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a",  &arr) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/",  &arr) == FAILURE) {
 		return;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr))) == 0) {
@@ -3649,7 +3649,7 @@ PHP_FUNCTION(stats_covariance)
 	HashPosition pos_1, pos_2;
 	int elements_num, i = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "aa",  &arr_1, &arr_2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/a/",  &arr_1, &arr_2) == FAILURE) {
 		return;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr_1))) == 0) {
