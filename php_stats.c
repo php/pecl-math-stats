@@ -3098,7 +3098,7 @@ PHP_FUNCTION(stats_stat_innerproduct)
 		(data2 = zend_hash_get_current_data_ex(Z_ARRVAL_P(arg2), &pos2)) != NULL) {
 		convert_to_double_ex(data1);
 		convert_to_double_ex(data2);
-		sum = Z_DVAL_P(data1) * Z_DVAL_P(data2);
+		sum += Z_DVAL_P(data1) * Z_DVAL_P(data2);
 
 		zend_hash_move_forward_ex(Z_ARRVAL_P(arg1), &pos1);
 		zend_hash_move_forward_ex(Z_ARRVAL_P(arg2), &pos2);
