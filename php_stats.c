@@ -3204,6 +3204,7 @@ PHP_FUNCTION(stats_stat_paired_t)
 	}
 	if (xnum < 2) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "arr1 should have atleast 2 elements");
+		RETURN_FALSE;
 	}
 
 	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arg1), &pos1);
