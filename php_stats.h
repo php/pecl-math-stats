@@ -35,7 +35,6 @@ extern zend_module_entry stats_module_entry;
 
 PHP_MINFO_FUNCTION(stats);
 
-PHP_FUNCTION(stats_bin_counts);
 PHP_FUNCTION(stats_cdf_t);
 PHP_FUNCTION(stats_cdf_normal);
 PHP_FUNCTION(stats_cdf_gamma);
@@ -98,9 +97,9 @@ PHP_FUNCTION(stats_stat_percentile);
 PHP_FUNCTION(stats_stat_correlation);
 PHP_FUNCTION(stats_stat_binomial_coef);
 PHP_FUNCTION(stats_stat_factorial);
-PHP_FUNCTION(stats_absolute_deviation);
-PHP_FUNCTION(stats_standard_deviation);
 PHP_FUNCTION(stats_variance);
+PHP_FUNCTION(stats_standard_deviation);
+PHP_FUNCTION(stats_absolute_deviation);
 PHP_FUNCTION(stats_harmonic_mean);
 PHP_FUNCTION(stats_skew);
 PHP_FUNCTION(stats_kurtosis);

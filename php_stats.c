@@ -115,9 +115,9 @@ zend_function_entry statistics_functions[] = {
 	PHP_FE(stats_stat_correlation,		NULL)
 	PHP_FE(stats_stat_binomial_coef,	NULL)
 	PHP_FE(stats_stat_factorial,		NULL)
+    PHP_FE(stats_variance,              NULL)
 	PHP_FE(stats_standard_deviation,	NULL)
 	PHP_FE(stats_absolute_deviation,	NULL)
-	PHP_FE(stats_variance,				NULL)
 	PHP_FE(stats_harmonic_mean,			NULL)
 	PHP_FE(stats_skew,					NULL)
 	PHP_FE(stats_kurtosis,				NULL)
@@ -381,7 +381,7 @@ PHP_FUNCTION(stats_cdf_t)
      exp( - 0.5 * (( X - MEAN)/SD)**2)
 ***********************************************************************/
 
-/* {{{ proto float stats_stat_gennch(float par1, float par2, float par3, int which)
+/* {{{ proto float stats_cdf_normal(float par1, float par2, float par3, int which)
 	Calculates any one parameter of the normal distribution given values for thee others. */
 PHP_FUNCTION(stats_cdf_normal)
 {
@@ -1496,7 +1496,7 @@ PHP_FUNCTION(stats_cdf_noncentral_f)
 
 ************************************************************************/
 
-/* {{{ proto float stats_stat_noncentral_t(float par1, float par2, float par3, int which)
+/* {{{ proto float stats_cdf_noncentral_t(float par1, float par2, float par3, int which)
 	Calculates any one parameter of the noncentral t distribution give values for the others. */
 PHP_FUNCTION(stats_cdf_noncentral_t)
 {
@@ -1766,7 +1766,7 @@ PHP_FUNCTION(stats_cdf_negative_binomial)
 
 **********************************************************************/
 
-/* {{{ proto float stats_cdf_poisson(float par1, float par2, float par3, int which)
+/* {{{ proto float stats_cdf_poisson(float par1, float par2, int which)
 	Calculates any one parameter of the Poisson distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_poisson)
 {
@@ -1839,7 +1839,7 @@ static double laplace_cdf(double x)
 
 
 /* {{{ proto float stats_cdf_laplace(float par1, float par2, float par3, int which)
-	Not documented */
+    Calculates any one parameter of the Laplace distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_laplace)
 {
 	double arg1;
@@ -1909,7 +1909,7 @@ static double cauchy_cdf (double x)
 }
 
 /* {{{ proto float stats_cdf_cauchy(float par1, float par2, float par3, int which)
-	Not documented */
+    Calculates any one parameter of the Cauchy distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_cauchy)
 {
 	double arg1;
@@ -1978,7 +1978,7 @@ static double logistic_quantile (double p)
 }
 
 /* {{{ proto float stats_cdf_logistic(float par1, float par2, float par3, int which)
-	Not documented */
+    Calculates any one parameter of the logistic distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_logistic)
 {
 	double arg1;
@@ -2037,7 +2037,7 @@ PHP_FUNCTION(stats_cdf_logistic)
 /* }}} */
 
 /* {{{ proto float stats_cdf_weibull(float par1, float par2, float par3, int which)
-	Not documented */
+    Calculates any one parameter of the Weibull distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_weibull)
 {
 	double arg1;
@@ -2087,7 +2087,7 @@ PHP_FUNCTION(stats_cdf_weibull)
 /* }}} */
 
 /* {{{ proto float stats_cdf_uniform(float par1, float par2, float par3, int which)
-	Not documented */
+    Calculates any one parameter of the uniform distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_uniform)
 {
 	double arg1;
@@ -2163,7 +2163,7 @@ static double exponential_cdf(double x)
 }
 
 /* {{{ proto float stats_cdf_exponential(float par1, float par2, int which)
-	Not documented */
+    Calculates any one parameter of the exponential distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_exponential)
 {
 	double arg1;
@@ -2224,7 +2224,7 @@ PHP_FUNCTION(stats_rand_setall)
 }
 /* }}} */
 
-/* {{{ proto array stats_rand_get_seeds(void)
+/* {{{ proto array stats_rand_getsd(void)
 	Not documented */
 PHP_FUNCTION(stats_rand_getsd)
 {
@@ -2286,7 +2286,7 @@ PHP_FUNCTION(stats_rand_gen_funiform)
 }
 /* }}} */
 
-/* {{{ proto int stats_rand_gen_int(void)
+/* {{{ proto int stats_rand_ignlgi(void)
   Generates random integer between 1 and 2147483562 */
 PHP_FUNCTION(stats_rand_ignlgi)
 {
@@ -2408,7 +2408,7 @@ PHP_FUNCTION(stats_rand_gen_gamma)
 }
 /* }}} */
 
-/* {{{ proto float stats_rand_gen_noncenral_chisquare(float df, float xnonc)
+/* {{{ proto float stats_rand_gen_noncentral_chisquare(float df, float xnonc)
 	Generates random deviate from the distribution of a noncentral chisquare with "df" degrees of freedom and noncentrality parameter "xnonc". d must be >= 1.0, xnonc must >= 0.0 */
 PHP_FUNCTION(stats_rand_gen_noncentral_chisquare)
 {
@@ -2428,7 +2428,7 @@ PHP_FUNCTION(stats_rand_gen_noncentral_chisquare)
 }
 /* }}} */
 
-/* {{{ proto float stats_rand_gen_noncentral_f(float dfn, float dfd, float xnonc)
+/* {{{ proto float stats_rand_gen_noncenral_f(float dfn, float dfd, float xnonc)
 	Generates a random deviate from the noncentral F (variance ratio) distribution with "dfn" degrees of freedom  in the numerator, and "dfd" degrees of freedom in the denominator, and noncentrality parameter "xnonc". Method : directly generates ratio of noncentral numerator chisquare variate to central denominator chisquare variate. */
 PHP_FUNCTION(stats_rand_gen_noncenral_f)
 {
@@ -2493,7 +2493,7 @@ PHP_FUNCTION(stats_rand_phrase_to_seeds)
 }
 /* }}} */
 
-/* {{{ proto int stats_rand_gen_ibinomial(int n, float pp)
+/* {{{ proto int stats_rand_ibinomial(int n, float pp)
 	Generates a single random deviate from a binomial distribution whose number of trials is "n" (n >= 0) and whose probability of an event in each trial is "pp" ([0;1]). Method : algorithm BTPE */
 PHP_FUNCTION(stats_rand_ibinomial)
 {
@@ -2513,7 +2513,7 @@ PHP_FUNCTION(stats_rand_ibinomial)
 }
 /* }}} */
 
-/* {{{ proto int stats_rand_gen_ibinomial_negative(int n, float p)
+/* {{{ proto int stats_rand_ibinomial_negative(int n, float p)
 	Generates a single random deviate from a negative binomial distribution. Arguments : n - the number of trials in the negative binomial distribution from which a random deviate is to be generated (n > 0), p - the probability of an event (0 < p < 1)). */
 PHP_FUNCTION(stats_rand_ibinomial_negative)
 {
@@ -2895,7 +2895,7 @@ PHP_FUNCTION(stats_dens_exponential)
 /* }}} */
 
 /* {{{ proto float stats_dens_f(float x, float dfr1, float dfr2)
-	*/
+    Not documented */
 PHP_FUNCTION(stats_dens_f)
 {
 	double dfr1;
@@ -2985,7 +2985,7 @@ PHP_FUNCTION(stats_dens_pmf_poisson)
 }
 /* }}} */
 
-/* {{{ proto float stats_dens_negative_binomial(float x, float n, float pi)
+/* {{{ proto float stats_dens_pmf_negative_binomial(float x, float n, float pi)
 	Not documented */
 PHP_FUNCTION(stats_dens_pmf_negative_binomial)
 {
@@ -3010,7 +3010,7 @@ PHP_FUNCTION(stats_dens_pmf_negative_binomial)
 /* }}} */
 
 /* {{{ proto float stats_dens_pmf_hypergeometric(float n1, float n2, float N1, float N2)
-	*/
+    Not documented */
 PHP_FUNCTION(stats_dens_pmf_hypergeometric)
 {
 	double y;
@@ -3071,7 +3071,7 @@ PHP_FUNCTION(stats_stat_powersum)
 /* }}} */
 
 /* {{{ proto float stats_stat_innerproduct(array arr1, array arr2)
-	*/
+    Not documented */
 PHP_FUNCTION(stats_stat_innerproduct)
 {
 	zval *arg1, *arg2;
@@ -3230,8 +3230,8 @@ PHP_FUNCTION(stats_stat_paired_t)
 }
 /* }}} */
 
-/* {{{ proto float stats_stat_percentile(float df, float xnonc)
-  Not documented */
+/* {{{ proto float stats_stat_percentile(array arr, float perc)
+    Not documented */
 PHP_FUNCTION(stats_stat_percentile)
 {
 	zval *arg1, *arg2;
@@ -3383,7 +3383,7 @@ PHP_FUNCTION(stats_stat_binomial_coef)
 }
 /* }}} */
 
-/* {{{ proto float stats_stat_gennch(int n)
+/* {{{ proto float stats_stat_factorial(int n)
 	Not documented */
 PHP_FUNCTION(stats_stat_factorial)
 {
@@ -3404,7 +3404,7 @@ PHP_FUNCTION(stats_stat_factorial)
 /* }}} */
 
 
-/* {{{ php_population_variance
+/* {{{ php_math_mean
 */
 static long double php_math_mean(zval *arr)
 {
@@ -3455,8 +3455,8 @@ static long double php_population_variance(zval *arr, zend_bool sample)
 /* }}} */
 
 
-/* {{{ proto float stats_variance(array a [, bool sample])
-   Returns the population variance */
+/* {{{ proto float stats_variance(array a [, bool sample = false])
+    Returns the population variance */
 PHP_FUNCTION(stats_variance)
 {
 	zval *arr;
@@ -3477,8 +3477,8 @@ PHP_FUNCTION(stats_variance)
 }
 /* }}} */
 
-/* {{{ proto float stats_standard_deviation(array a[, bool sample = false])
-   Returns the standard deviation */
+/* {{{ proto float stats_standard_deviation(array a [, bool sample = false])
+    Returns the standard deviation */
 PHP_FUNCTION(stats_standard_deviation)
 {
 	zval *arr;
@@ -3501,7 +3501,7 @@ PHP_FUNCTION(stats_standard_deviation)
 
 
 /* {{{ proto float stats_absolute_deviation(array a)
-   Returns the absolute deviation of an array of values*/
+    Returns the absolute deviation of an array of values */
 PHP_FUNCTION(stats_absolute_deviation)
 {
 	zval *arr;
@@ -3531,7 +3531,7 @@ PHP_FUNCTION(stats_absolute_deviation)
 /* }}} */
 
 /* {{{ proto float stats_harmonic_mean(array a)
-   Returns the harmonic mean of an array of values */
+    Returns the harmonic mean of an array of values */
 PHP_FUNCTION(stats_harmonic_mean)
 {
 	zval *arr;
@@ -3563,7 +3563,7 @@ PHP_FUNCTION(stats_harmonic_mean)
 /* }}} */
 
 /* {{{ proto float stats_skew(array a)
-   Computes the skewness of the data in the array */
+    Computes the skewness of the data in the array */
 PHP_FUNCTION(stats_skew)
 {
 	zval *arr;
@@ -3601,7 +3601,7 @@ PHP_FUNCTION(stats_skew)
 /* }}} */
 
 /* {{{ proto float stats_kurtosis(array a)
-   Computes the kurtosis of the data in the array */
+    Computes the kurtosis of the data in the array */
 PHP_FUNCTION(stats_kurtosis)
 {
 	zval *arr;
@@ -3641,7 +3641,7 @@ PHP_FUNCTION(stats_kurtosis)
 
 
 /* {{{ proto float stats_covariance(array a, array b)
-   Computes the covariance of two data sets */
+    Computes the covariance of two data sets */
 PHP_FUNCTION(stats_covariance)
 {
 	zval *arr_1, *arr_2;
