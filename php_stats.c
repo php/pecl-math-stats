@@ -3381,9 +3381,9 @@ PHP_FUNCTION(stats_stat_correlation)
 	Not documented */
 PHP_FUNCTION(stats_stat_binomial_coef)
 {
-	int i;
+	long i;
 	long n;
-	int x;
+	long x;
 	double bc = 1.0;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ll", &x, &n) == FAILURE) {
