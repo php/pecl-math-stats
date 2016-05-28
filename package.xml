@@ -28,15 +28,15 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </lead>
  <date>2016-05-28</date>
  <version>
-  <release>2.0.2-dev</release>
-  <api>2.0.2-dev</api>
+  <release>2.0.2</release>
+  <api>2.0.2</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>Fixed bugs (see tests in detail)
+ <notes>Fixed bugs (see tests for details)
  </notes>
  <contents>
   <dir name="/">
@@ -252,6 +252,21 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <date>2016-01-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>Update License to PHP 3.1, fixes #65884
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>2.0.2</release>
+    <api>2.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-05-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Fixed bugs (see tests for details)
    </notes>
   </release>
 
