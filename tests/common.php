@@ -1,4 +1,0 @@
-<?php
-
-@dl('stats.so')
-?>

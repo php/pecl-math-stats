@@ -1,0 +1,14 @@
+--TEST--
+stats_stat_factorial()
+--FILE--
+<?php
+var_dump(stats_stat_factorial(0));
+var_dump(stats_stat_factorial(1));
+var_dump(stats_stat_factorial(2));
+var_dump(stats_stat_factorial(3));
+?>
+--EXPECTF--
+float(1)
+float(1)
+float(2)
+float(6)
