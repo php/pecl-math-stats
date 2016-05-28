@@ -14,29 +14,120 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>andrey_php_net</email>
   <active>yes</active>
  </lead>
- <date>2006-05-31</date>
- <time>18:55:52</time>
+ <lead>
+  <name>Sean DuBois</name>
+  <user>SeanDer</user>
+  <email>seande@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Yuji Uchiyama</name>
+  <user>uchiyama</user>
+  <email>uchiyama@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2016-05-28</date>
  <version>
-  <release>1.0.2</release>
-  <api>1.0.2</api>
+  <release>1.0.4-dev</release>
+  <api>1.0.4-dev</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>Added fd_lgamma from FDLibM, so now all functions are also available on Windows.
- Previously some were disabled because Microsoft does not ship lgamma with their C library.
+ <notes>Fixed bugs (see tests for details)
  </notes>
  <contents>
   <dir name="/">
    <dir name="tests">
-    <file name="common.php" role="test" />
-    <file name="math_abs_dev.phpt" role="test" />
-    <file name="math_covariance.phpt" role="test" />
-    <file name="math_harmonic_mean.phpt" role="test" />
-    <file name="math_skew_kurtosis.phpt" role="test" />
-    <file name="math_std_dev.phpt" role="test" />
+    <file name="bug57830.phpt" role="test" />
+    <file name="bug57831.phpt" role="test" />
+    <file name="bug58394.phpt" role="test" />
+    <file name="bug59070.phpt" role="test" />
+    <file name="bug59292.phpt" role="test" />
+    <file name="bug61318-10.phpt" role="test" />
+    <file name="bug61318-11.phpt" role="test" />
+    <file name="bug61318-12.phpt" role="test" />
+    <file name="bug61318-13.phpt" role="test" />
+    <file name="bug61318-2.phpt" role="test" />
+    <file name="bug61318-3.phpt" role="test" />
+    <file name="bug61318-4.phpt" role="test" />
+    <file name="bug61318-5.phpt" role="test" />
+    <file name="bug61318-6.phpt" role="test" />
+    <file name="bug61318-7.phpt" role="test" />
+    <file name="bug61318-8.phpt" role="test" />
+    <file name="bug61318-9.phpt" role="test" />
+    <file name="bug61318.phpt" role="test" />
+    <file name="bug68295.phpt" role="test" />
+    <file name="stats_absolute_deviation.phpt" role="test" />
+    <file name="stats_cdf_beta.phpt" role="test" />
+    <file name="stats_cdf_binomial.phpt" role="test" />
+    <file name="stats_cdf_cauchy.phpt" role="test" />
+    <file name="stats_cdf_chisquare.phpt" role="test" />
+    <file name="stats_cdf_exponential.phpt" role="test" />
+    <file name="stats_cdf_f.phpt" role="test" />
+    <file name="stats_cdf_gamma.phpt" role="test" />
+    <file name="stats_cdf_laplace.phpt" role="test" />
+    <file name="stats_cdf_logistic.phpt" role="test" />
+    <file name="stats_cdf_negative_binomial.phpt" role="test" />
+    <file name="stats_cdf_noncentral_chisquare.phpt" role="test" />
+    <file name="stats_cdf_noncentral_f.phpt" role="test" />
+    <file name="stats_cdf_noncentral_t.phpt" role="test" />
+    <file name="stats_cdf_normal.phpt" role="test" />
+    <file name="stats_cdf_poisson.phpt" role="test" />
+    <file name="stats_cdf_t.phpt" role="test" />
+    <file name="stats_cdf_uniform.phpt" role="test" />
+    <file name="stats_cdf_weibull.phpt" role="test" />
+    <file name="stats_covariance.phpt" role="test" />
+    <file name="stats_dens_beta.phpt" role="test" />
+    <file name="stats_dens_cauchy.phpt" role="test" />
+    <file name="stats_dens_chisquare.phpt" role="test" />
+    <file name="stats_dens_exponential.phpt" role="test" />
+    <file name="stats_dens_f.phpt" role="test" />
+    <file name="stats_dens_gamma.phpt" role="test" />
+    <file name="stats_dens_laplace.phpt" role="test" />
+    <file name="stats_dens_logistic.phpt" role="test" />
+    <file name="stats_dens_normal.phpt" role="test" />
+    <file name="stats_dens_pmf_binomial.phpt" role="test" />
+    <file name="stats_dens_pmf_hypergeometric.phpt" role="test" />
+    <file name="stats_dens_pmf_negative_binomial.phpt" role="test" />
+    <file name="stats_dens_pmf_poisson.phpt" role="test" />
+    <file name="stats_dens_t.phpt" role="test" />
+    <file name="stats_dens_uniform.phpt" role="test" />
+    <file name="stats_dens_weibull.phpt" role="test" />
+    <file name="stats_harmonic_mean.phpt" role="test" />
+    <file name="stats_kurtosis.phpt" role="test" />
+    <file name="stats_rand_gen_beta.phpt" role="test" />
+    <file name="stats_rand_gen_chisquare.phpt" role="test" />
+    <file name="stats_rand_gen_exponential.phpt" role="test" />
+    <file name="stats_rand_gen_f.phpt" role="test" />
+    <file name="stats_rand_gen_funiform.phpt" role="test" />
+    <file name="stats_rand_gen_gamma.phpt" role="test" />
+    <file name="stats_rand_gen_ipoisson.phpt" role="test" />
+    <file name="stats_rand_gen_iuniform.phpt" role="test" />
+    <file name="stats_rand_gen_noncenral_f.phpt" role="test" />
+    <file name="stats_rand_gen_noncentral_chisquare.phpt" role="test" />
+    <file name="stats_rand_gen_noncentral_t.phpt" role="test" />
+    <file name="stats_rand_gen_normal.phpt" role="test" />
+    <file name="stats_rand_gen_t.phpt" role="test" />
+    <file name="stats_rand_getsd.phpt" role="test" />
+    <file name="stats_rand_ibinomial.phpt" role="test" />
+    <file name="stats_rand_ibinomial_negative.phpt" role="test" />
+    <file name="stats_rand_ignlgi.phpt" role="test" />
+    <file name="stats_rand_phrase_to_seeds.phpt" role="test" />
+    <file name="stats_rand_ranf.phpt" role="test" />
+    <file name="stats_skew.phpt" role="test" />
+    <file name="stats_standard_deviation.phpt" role="test" />
+    <file name="stats_stat_binomial_coef.phpt" role="test" />
+    <file name="stats_stat_correlation.phpt" role="test" />
+    <file name="stats_stat_factorial.phpt" role="test" />
+    <file name="stats_stat_independent_t.phpt" role="test" />
+    <file name="stats_stat_innerproduct.phpt" role="test" />
+    <file name="stats_stat_paired_t.phpt" role="test" />
+    <file name="stats_stat_percentile.phpt" role="test" />
+    <file name="stats_stat_powersum.phpt" role="test" />
+    <file name="stats_variance.phpt" role="test" />
    </dir> <!-- //tests -->
    <file name="cdflib.h" role="src" />
    <file name="com.c" role="src" />
@@ -57,6 +148,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <file name="randlib.h" role="src" />
    <file name="php_stats.c" role="src" />
    <file name="TODO" role="doc" />
+   <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -72,6 +164,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <providesextension>stats</providesextension>
  <extsrcrelease />
  <changelog>
+
   <release>
    <version>
     <release>1.0.0</release>
@@ -86,6 +179,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <notes>Initial release.
    </notes>
   </release>
+
   <release>
    <version>
     <release>1.0.1</release>
@@ -100,5 +194,96 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <notes>Fixed shared build.
    </notes>
   </release>
+
+  <release>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-5-31</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes> Added fd_lgamma from FDLibM, so now all functions are also available on Windows.
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>1.0.3</release>
+    <api>1.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-12-10</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Release fixed for PHP 5.4
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>1.0.4</release>
+    <api>1.0.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-05-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Fixed bugs (see tests for details)
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>2.0.0</release>
+    <api>2.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-01-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>PHP 7 Support
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>2.0.1</release>
+    <api>2.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-01-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Update License to PHP 3.1, fixes #65884
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>2.0.2</release>
+    <api>2.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-05-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Fixed bugs (see tests for details)
+   </notes>
+  </release>
+
  </changelog>
 </package>
