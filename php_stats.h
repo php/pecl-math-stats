@@ -24,7 +24,7 @@
 extern zend_module_entry stats_module_entry;
 #define phpext_stats_ptr &stats_module_entry
 
-#define PHP_STATS_VERSION "2.0.2"
+#define PHP_STATS_VERSION "2.0.2-dev"
 
 #ifdef PHP_WIN32
 #define PHP_STATS_API __declspec(dllexport)
