@@ -3403,14 +3403,14 @@ PHP_FUNCTION(stats_stat_binomial_coef)
 PHP_FUNCTION(stats_stat_factorial)
 {
 	long n;
-	int i;
+	long i;
 	double f = 1;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &n) == FAILURE) {
 		RETURN_FALSE;
 	}
 
-	for (i = 1; i <= n; ++i) {
+	for (i = n; i >= 2; --i) {
 		f *= i;
 	}
 
