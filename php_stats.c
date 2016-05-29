@@ -115,7 +115,7 @@ zend_function_entry statistics_functions[] = {
 	PHP_FE(stats_stat_correlation,		NULL)
 	PHP_FE(stats_stat_binomial_coef,	NULL)
 	PHP_FE(stats_stat_factorial,		NULL)
-	PHP_FE(stats_variance,              NULL)
+	PHP_FE(stats_variance,				NULL)
 	PHP_FE(stats_standard_deviation,	NULL)
 	PHP_FE(stats_absolute_deviation,	NULL)
 	PHP_FE(stats_harmonic_mean,			NULL)
