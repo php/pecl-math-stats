@@ -3412,6 +3412,9 @@ PHP_FUNCTION(stats_stat_factorial)
 
 	for (i = n; i >= 2; --i) {
 		f *= i;
+		if (zend_isinf(f)) {
+			break;
+		}
 	}
 
 	RETURN_DOUBLE(f);
