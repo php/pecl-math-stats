@@ -28,7 +28,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </lead>
  <date>2016-06-02</date>
  <version>
-  <release>2.0.3</release>
+  <release>2.0.3-dev</release>
   <api>2.0.3</api>
  </version>
  <stability>
