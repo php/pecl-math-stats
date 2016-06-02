@@ -26,17 +26,21 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>uchiyama@php.net</email>
   <active>yes</active>
  </lead>
- <date>2016-05-28</date>
+ <date>2016-06-02</date>
  <version>
-  <release>2.0.2-dev</release>
-  <api>2.0.2-dev</api>
+  <release>2.0.3</release>
+  <api>2.0.3</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>Fixed bugs (see tests for details)
+ <notes>
+- Fix bug in stats_stat_binomial_coef which causes segfault in some environments
+- Fix bug in stats_stat_factorial which leads infinite loop in some cases
+- stats_stat_factorial returns immediately when the value are reached to +INF
+- Change supported version to PHP 5.3 or higher
  </notes>
  <contents>
   <dir name="/">
@@ -242,6 +246,25 @@ http://pear.php.net/dtd/package-2.0.xsd">
 
   <release>
    <version>
+    <release>1.0.5</release>
+    <api>1.0.5</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2016-06-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fix bug in stats_stat_binomial_coef which causes segfault in some environments
+- Fix bug in stats_stat_factorial which leads infinite loop in some cases
+- stats_stat_factorial returns immediately when the value are reached to +INF
+- Change supported version to PHP 5.3 or higher
+   </notes>
+  </release>
+
+  <release>
+   <version>
     <release>2.0.0</release>
     <api>2.0.0</api>
    </version>
@@ -282,6 +305,25 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <date>2016-05-28</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>Fixed bugs (see tests for details)
+   </notes>
+  </release>
+
+  <release>
+   <date>2016-06-02</date>
+   <version>
+    <release>2.0.3</release>
+    <api>2.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fix bug in stats_stat_binomial_coef which causes segfault in some environments
+- Fix bug in stats_stat_factorial which leads infinite loop in some cases
+- stats_stat_factorial returns immediately when the value are reached to +INF
+- Change supported version to PHP 5.3 or higher
    </notes>
   </release>
 
