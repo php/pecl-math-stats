@@ -129,12 +129,12 @@ zend_module_entry stats_module_entry = {
 	STANDARD_MODULE_HEADER,
 	"stats",
 	statistics_functions,
- 	NULL,
- 	NULL,
- 	NULL,
- 	NULL,
- 	PHP_MINFO(stats),
- 	PHP_STATS_VERSION,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	PHP_MINFO(stats),
+	PHP_STATS_VERSION,
 	STANDARD_MODULE_PROPERTIES,
 };
 
@@ -432,10 +432,10 @@ PHP_FUNCTION(stats_cdf_normal)
 	}
 
 	switch (which) {
-	  	case 1: RETURN_DOUBLE(p);
-	  	case 2: RETURN_DOUBLE(x);
-	  	case 3: RETURN_DOUBLE(mean);
-	  	case 4: RETURN_DOUBLE(sd);
+		case 1: RETURN_DOUBLE(p);
+		case 2: RETURN_DOUBLE(x);
+		case 3: RETURN_DOUBLE(mean);
+		case 4: RETURN_DOUBLE(sd);
 	}
 	RETURN_FALSE; /* should never be reached */
 }
@@ -588,10 +588,10 @@ PHP_FUNCTION(stats_cdf_gamma)
 	}
 
 	switch (which)	{
-	  	case 1: RETURN_DOUBLE(p);
-	  	case 2: RETURN_DOUBLE(x);
-	  	case 3: RETURN_DOUBLE(shape);
-	  	case 4: RETURN_DOUBLE(1 / rate);
+		case 1: RETURN_DOUBLE(p);
+		case 2: RETURN_DOUBLE(x);
+		case 3: RETURN_DOUBLE(shape);
+		case 4: RETURN_DOUBLE(1 / rate);
 	}
 	RETURN_FALSE; /* should never be reached */
 }
@@ -702,7 +702,7 @@ PHP_FUNCTION(stats_cdf_chisquare)
 		q = 1.0 - p;
 	}
 
- 	cdfchi((int *)&which, &p, &q, &x, &df, &status, &bound);
+	cdfchi((int *)&which, &p, &q, &x, &df, &status, &bound);
 	if (status != 0) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error");
 		RETURN_FALSE;
@@ -855,10 +855,10 @@ PHP_FUNCTION(stats_cdf_beta)
 	}
 
 	switch (which) {
-	  	case 1: RETURN_DOUBLE(p);
-	  	case 2: RETURN_DOUBLE(x);
-	  	case 3: RETURN_DOUBLE(a);
-	  	case 4: RETURN_DOUBLE(b);
+		case 1: RETURN_DOUBLE(p);
+		case 2: RETURN_DOUBLE(x);
+		case 3: RETURN_DOUBLE(a);
+		case 4: RETURN_DOUBLE(b);
 	}
 	RETURN_FALSE; /* never here */
 }
@@ -994,10 +994,10 @@ PHP_FUNCTION(stats_cdf_binomial)
 	}
 
 	switch (which) {
-	  	case 1: RETURN_DOUBLE(p);
-	  	case 2: RETURN_DOUBLE(sn);
-	  	case 3: RETURN_DOUBLE(xn);
-	  	case 4: RETURN_DOUBLE(pr);
+		case 1: RETURN_DOUBLE(p);
+		case 2: RETURN_DOUBLE(sn);
+		case 3: RETURN_DOUBLE(xn);
+		case 4: RETURN_DOUBLE(pr);
 	}
 	RETURN_FALSE; /* never here */
 }
@@ -1132,10 +1132,10 @@ PHP_FUNCTION(stats_cdf_noncentral_chisquare)
 	}
 
 	switch (which) {
-	  	case 1: RETURN_DOUBLE(p);
-	  	case 2: RETURN_DOUBLE(x);
-	  	case 3: RETURN_DOUBLE(df);
-	  	case 4: RETURN_DOUBLE(pnonc);
+		case 1: RETURN_DOUBLE(p);
+		case 2: RETURN_DOUBLE(x);
+		case 3: RETURN_DOUBLE(df);
+		case 4: RETURN_DOUBLE(pnonc);
 	}
 	RETURN_FALSE; /* never here */
 }
@@ -1263,10 +1263,10 @@ PHP_FUNCTION(stats_cdf_f)
 	}
 
 	switch (which) {
-	  	case 1: RETURN_DOUBLE(p);
-	  	case 2: RETURN_DOUBLE(f);
-	  	case 3: RETURN_DOUBLE(dfn);
-	  	case 4: RETURN_DOUBLE(dfd);
+		case 1: RETURN_DOUBLE(p);
+		case 2: RETURN_DOUBLE(f);
+		case 3: RETURN_DOUBLE(dfn);
+		case 4: RETURN_DOUBLE(dfd);
 	}
 	RETURN_FALSE; /* never here */
 }
@@ -1420,10 +1420,10 @@ PHP_FUNCTION(stats_cdf_noncentral_f)
 	}
 
 	switch (which) {
-	  	case 1: RETURN_DOUBLE(p);
-	  	case 2: RETURN_DOUBLE(f);
-	  	case 3: RETURN_DOUBLE(dfn);
-	  	case 4: RETURN_DOUBLE(dfd);
+		case 1: RETURN_DOUBLE(p);
+		case 2: RETURN_DOUBLE(f);
+		case 3: RETURN_DOUBLE(dfn);
+		case 4: RETURN_DOUBLE(dfd);
 		case 5: RETURN_DOUBLE(pnonc);
 	}
 	RETURN_FALSE; /* never here */
@@ -1839,7 +1839,7 @@ static double laplace_cdf(double x)
 
 
 /* {{{ proto float stats_cdf_laplace(float par1, float par2, float par3, int which)
-    Calculates any one parameter of the Laplace distribution given values for the others. */
+	Calculates any one parameter of the Laplace distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_laplace)
 {
 	double arg1;
@@ -1909,7 +1909,7 @@ static double cauchy_cdf (double x)
 }
 
 /* {{{ proto float stats_cdf_cauchy(float par1, float par2, float par3, int which)
-    Calculates any one parameter of the Cauchy distribution given values for the others. */
+	Calculates any one parameter of the Cauchy distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_cauchy)
 {
 	double arg1;
@@ -1978,7 +1978,7 @@ static double logistic_quantile (double p)
 }
 
 /* {{{ proto float stats_cdf_logistic(float par1, float par2, float par3, int which)
-    Calculates any one parameter of the logistic distribution given values for the others. */
+	Calculates any one parameter of the logistic distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_logistic)
 {
 	double arg1;
@@ -2037,7 +2037,7 @@ PHP_FUNCTION(stats_cdf_logistic)
 /* }}} */
 
 /* {{{ proto float stats_cdf_weibull(float par1, float par2, float par3, int which)
-    Calculates any one parameter of the Weibull distribution given values for the others. */
+	Calculates any one parameter of the Weibull distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_weibull)
 {
 	double arg1;
@@ -2087,7 +2087,7 @@ PHP_FUNCTION(stats_cdf_weibull)
 /* }}} */
 
 /* {{{ proto float stats_cdf_uniform(float par1, float par2, float par3, int which)
-    Calculates any one parameter of the uniform distribution given values for the others. */
+	Calculates any one parameter of the uniform distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_uniform)
 {
 	double arg1;
@@ -2163,7 +2163,7 @@ static double exponential_cdf(double x)
 }
 
 /* {{{ proto float stats_cdf_exponential(float par1, float par2, int which)
-    Calculates any one parameter of the exponential distribution given values for the others. */
+	Calculates any one parameter of the exponential distribution given values for the others. */
 PHP_FUNCTION(stats_cdf_exponential)
 {
 	double arg1;
@@ -2243,7 +2243,7 @@ PHP_FUNCTION(stats_rand_getsd)
 /* }}} */
 
 /* {{{ proto int stats_rand_gen_iuniform(int low, int high)
-   Generates integer uniformly distributed between LOW (inclusive) and HIGH (inclusive)  */
+	Generates integer uniformly distributed between LOW (inclusive) and HIGH (inclusive)  */
 PHP_FUNCTION(stats_rand_gen_iuniform)
 {
 	zend_long low;
@@ -2267,7 +2267,7 @@ PHP_FUNCTION(stats_rand_gen_iuniform)
 /* }}} */
 
 /* {{{ proto float stats_rand_gen_funiform(float low, float high)
-   Generates uniform float between low (exclusive) and high (exclusive) */
+	Generates uniform float between low (exclusive) and high (exclusive) */
 PHP_FUNCTION(stats_rand_gen_funiform)
 {
 	double low;
@@ -2287,7 +2287,7 @@ PHP_FUNCTION(stats_rand_gen_funiform)
 /* }}} */
 
 /* {{{ proto int stats_rand_ignlgi(void)
-  Generates random integer between 1 and 2147483562 */
+	Generates random integer between 1 and 2147483562 */
 PHP_FUNCTION(stats_rand_ignlgi)
 {
 	if (ZEND_NUM_ARGS() != 0) {
@@ -2299,7 +2299,7 @@ PHP_FUNCTION(stats_rand_ignlgi)
 /* }}} */
 
 /* {{{ proto float stats_rand_ranf(void)
-  Returns a random floating point number from a uniform distribution over 0 - 1 (endpoints of this interval are not returned) using the current generator */
+	Returns a random floating point number from a uniform distribution over 0 - 1 (endpoints of this interval are not returned) using the current generator */
 PHP_FUNCTION(stats_rand_ranf)
 {
 	if (ZEND_NUM_ARGS() != 0) {
@@ -2895,7 +2895,7 @@ PHP_FUNCTION(stats_dens_exponential)
 /* }}} */
 
 /* {{{ proto float stats_dens_f(float x, float dfr1, float dfr2)
-    Not documented */
+	Not documented */
 PHP_FUNCTION(stats_dens_f)
 {
 	double dfr1;
@@ -3010,7 +3010,7 @@ PHP_FUNCTION(stats_dens_pmf_negative_binomial)
 /* }}} */
 
 /* {{{ proto float stats_dens_pmf_hypergeometric(float n1, float n2, float N1, float N2)
-    Not documented */
+	Not documented */
 PHP_FUNCTION(stats_dens_pmf_hypergeometric)
 {
 	double y;
@@ -3071,7 +3071,7 @@ PHP_FUNCTION(stats_stat_powersum)
 /* }}} */
 
 /* {{{ proto float stats_stat_innerproduct(array arr1, array arr2)
-    Not documented */
+	Not documented */
 PHP_FUNCTION(stats_stat_innerproduct)
 {
 	zval *arg1, *arg2;
@@ -3231,7 +3231,7 @@ PHP_FUNCTION(stats_stat_paired_t)
 /* }}} */
 
 /* {{{ proto float stats_stat_percentile(array arr, float perc)
-    Not documented */
+	Not documented */
 PHP_FUNCTION(stats_stat_percentile)
 {
 	zval *arg1, *arg2;
@@ -3459,7 +3459,7 @@ static long double php_population_variance(zval *arr, zend_bool sample)
 
 
 /* {{{ proto float stats_variance(array a [, bool sample = false])
-    Returns the population variance */
+	Returns the population variance */
 PHP_FUNCTION(stats_variance)
 {
 	zval *arr;
@@ -3481,7 +3481,7 @@ PHP_FUNCTION(stats_variance)
 /* }}} */
 
 /* {{{ proto float stats_standard_deviation(array a [, bool sample = false])
-    Returns the standard deviation */
+	Returns the standard deviation */
 PHP_FUNCTION(stats_standard_deviation)
 {
 	zval *arr;
@@ -3504,7 +3504,7 @@ PHP_FUNCTION(stats_standard_deviation)
 
 
 /* {{{ proto float stats_absolute_deviation(array a)
-    Returns the absolute deviation of an array of values */
+	Returns the absolute deviation of an array of values */
 PHP_FUNCTION(stats_absolute_deviation)
 {
 	zval *arr;
@@ -3534,7 +3534,7 @@ PHP_FUNCTION(stats_absolute_deviation)
 /* }}} */
 
 /* {{{ proto float stats_harmonic_mean(array a)
-    Returns the harmonic mean of an array of values */
+	Returns the harmonic mean of an array of values */
 PHP_FUNCTION(stats_harmonic_mean)
 {
 	zval *arr;
@@ -3566,7 +3566,7 @@ PHP_FUNCTION(stats_harmonic_mean)
 /* }}} */
 
 /* {{{ proto float stats_skew(array a)
-    Computes the skewness of the data in the array */
+	Computes the skewness of the data in the array */
 PHP_FUNCTION(stats_skew)
 {
 	zval *arr;
@@ -3604,7 +3604,7 @@ PHP_FUNCTION(stats_skew)
 /* }}} */
 
 /* {{{ proto float stats_kurtosis(array a)
-    Computes the kurtosis of the data in the array */
+	Computes the kurtosis of the data in the array */
 PHP_FUNCTION(stats_kurtosis)
 {
 	zval *arr;
@@ -3644,7 +3644,7 @@ PHP_FUNCTION(stats_kurtosis)
 
 
 /* {{{ proto float stats_covariance(array a, array b)
-    Computes the covariance of two data sets */
+	Computes the covariance of two data sets */
 PHP_FUNCTION(stats_covariance)
 {
 	zval *arr_1, *arr_2;
