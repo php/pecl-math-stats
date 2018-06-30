@@ -1,4 +1,3 @@
-dnl $Id$
 dnl config.m4 for extension stats
 
 PHP_ARG_ENABLE(stats, whether to enable stats support,
