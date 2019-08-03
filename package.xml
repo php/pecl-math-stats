@@ -110,7 +110,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file name="stats_rand_gen_gamma.phpt" role="test" />
     <file name="stats_rand_gen_ipoisson.phpt" role="test" />
     <file name="stats_rand_gen_iuniform.phpt" role="test" />
-    <file name="stats_rand_gen_noncenral_f.phpt" role="test" />
+    <file name="stats_rand_gen_noncentral_f.phpt" role="test" />
     <file name="stats_rand_gen_noncentral_chisquare.phpt" role="test" />
     <file name="stats_rand_gen_noncentral_t.phpt" role="test" />
     <file name="stats_rand_gen_normal.phpt" role="test" />

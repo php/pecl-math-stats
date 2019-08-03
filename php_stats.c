@@ -80,7 +80,8 @@ zend_function_entry statistics_functions[] = {
 	PHP_FE(stats_rand_gen_f,			NULL)
 	PHP_FE(stats_rand_gen_gamma,		NULL)
 	PHP_FE(stats_rand_gen_noncentral_chisquare,NULL)
-	PHP_FE(stats_rand_gen_noncenral_f,	NULL)
+	PHP_FE(stats_rand_gen_noncentral_f,	NULL)
+	PHP_DEP_FALIAS(stats_rand_gen_noncenral_f,	stats_rand_gen_noncentral_f,	NULL)
 	PHP_FE(stats_rand_gen_normal,		NULL)
 	PHP_FE(stats_rand_phrase_to_seeds,	NULL)
 	PHP_FE(stats_rand_ibinomial,		NULL)
@@ -2425,9 +2426,9 @@ PHP_FUNCTION(stats_rand_gen_noncentral_chisquare)
 }
 /* }}} */
 
-/* {{{ proto float stats_rand_gen_noncenral_f(float dfn, float dfd, float xnonc)
+/* {{{ proto float stats_rand_gen_noncentral_f(float dfn, float dfd, float xnonc)
 	Generates a random deviate from the noncentral F (variance ratio) distribution with "dfn" degrees of freedom  in the numerator, and "dfd" degrees of freedom in the denominator, and noncentrality parameter "xnonc". Method : directly generates ratio of noncentral numerator chisquare variate to central denominator chisquare variate. */
-PHP_FUNCTION(stats_rand_gen_noncenral_f)
+PHP_FUNCTION(stats_rand_gen_noncentral_f)
 {
 	double dfn;
 	double dfd;

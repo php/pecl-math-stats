@@ -63,7 +63,7 @@ PHP_FUNCTION(stats_rand_gen_exponential);
 PHP_FUNCTION(stats_rand_gen_f);
 PHP_FUNCTION(stats_rand_gen_gamma);
 PHP_FUNCTION(stats_rand_gen_noncentral_chisquare);
-PHP_FUNCTION(stats_rand_gen_noncenral_f);
+PHP_FUNCTION(stats_rand_gen_noncentral_f);
 PHP_FUNCTION(stats_rand_gen_normal);
 PHP_FUNCTION(stats_rand_phrase_to_seeds);
 PHP_FUNCTION(stats_rand_ibinomial);
