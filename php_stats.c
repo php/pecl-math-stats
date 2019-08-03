@@ -81,6 +81,7 @@ zend_function_entry statistics_functions[] = {
 	PHP_FE(stats_rand_gen_gamma,		NULL)
 	PHP_FE(stats_rand_gen_noncentral_chisquare,NULL)
 	PHP_FE(stats_rand_gen_noncentral_f,	NULL)
+	PHP_DEP_FALIAS(stats_rand_gen_noncenral_f,	stats_rand_gen_noncentral_f,	NULL)
 	PHP_FE(stats_rand_gen_normal,		NULL)
 	PHP_FE(stats_rand_phrase_to_seeds,	NULL)
 	PHP_FE(stats_rand_ibinomial,		NULL)
