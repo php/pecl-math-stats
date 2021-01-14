@@ -1,5 +1,7 @@
 --TEST--
 stats_standard_deviation()
+--INI--
+serialize_precision=14
 --FILE--
 <?php
 $a=array(4, 1, 7);

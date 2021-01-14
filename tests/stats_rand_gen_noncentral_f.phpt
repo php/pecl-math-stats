@@ -1,5 +1,7 @@
 --TEST--
 stats_rand_gen_noncentral_f()
+--INI--
+serialize_precision=14
 --FILE--
 <?php
 var_dump(is_float(stats_rand_gen_noncentral_f(2, 3, 4)));

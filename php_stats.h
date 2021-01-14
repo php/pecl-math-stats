@@ -22,7 +22,7 @@
 extern zend_module_entry stats_module_entry;
 #define phpext_stats_ptr &stats_module_entry
 
-#define PHP_STATS_VERSION "2.0.3-dev"
+#define PHP_STATS_VERSION "2.1.0"
 
 #ifdef PHP_WIN32
 #define PHP_STATS_API __declspec(dllexport)
@@ -32,77 +32,6 @@ extern zend_module_entry stats_module_entry;
 
 
 PHP_MINFO_FUNCTION(stats);
-
-PHP_FUNCTION(stats_cdf_t);
-PHP_FUNCTION(stats_cdf_normal);
-PHP_FUNCTION(stats_cdf_gamma);
-PHP_FUNCTION(stats_cdf_chisquare);
-PHP_FUNCTION(stats_cdf_beta);
-PHP_FUNCTION(stats_cdf_binomial);
-PHP_FUNCTION(stats_cdf_noncentral_chisquare);
-PHP_FUNCTION(stats_cdf_f);
-PHP_FUNCTION(stats_cdf_noncentral_f);
-PHP_FUNCTION(stats_cdf_noncentral_t);
-PHP_FUNCTION(stats_cdf_negative_binomial);
-PHP_FUNCTION(stats_cdf_poisson);
-PHP_FUNCTION(stats_cdf_laplace);
-PHP_FUNCTION(stats_cdf_cauchy);
-PHP_FUNCTION(stats_cdf_logistic);
-PHP_FUNCTION(stats_cdf_weibull);
-PHP_FUNCTION(stats_cdf_uniform);
-PHP_FUNCTION(stats_cdf_exponential);
-PHP_FUNCTION(stats_rand_setall);
-PHP_FUNCTION(stats_rand_getsd);
-PHP_FUNCTION(stats_rand_gen_iuniform);
-PHP_FUNCTION(stats_rand_gen_funiform);
-PHP_FUNCTION(stats_rand_ignlgi);
-PHP_FUNCTION(stats_rand_ranf);
-PHP_FUNCTION(stats_rand_gen_beta);
-PHP_FUNCTION(stats_rand_gen_chisquare);
-PHP_FUNCTION(stats_rand_gen_exponential);
-PHP_FUNCTION(stats_rand_gen_f);
-PHP_FUNCTION(stats_rand_gen_gamma);
-PHP_FUNCTION(stats_rand_gen_noncentral_chisquare);
-PHP_FUNCTION(stats_rand_gen_noncentral_f);
-PHP_FUNCTION(stats_rand_gen_normal);
-PHP_FUNCTION(stats_rand_phrase_to_seeds);
-PHP_FUNCTION(stats_rand_ibinomial);
-PHP_FUNCTION(stats_rand_ibinomial_negative);
-PHP_FUNCTION(stats_rand_gen_ipoisson);
-PHP_FUNCTION(stats_rand_gen_noncentral_t);
-PHP_FUNCTION(stats_rand_gen_t);
-PHP_FUNCTION(stats_dens_normal);
-PHP_FUNCTION(stats_dens_cauchy);
-PHP_FUNCTION(stats_dens_laplace);
-PHP_FUNCTION(stats_dens_logistic);
-PHP_FUNCTION(stats_dens_beta);
-PHP_FUNCTION(stats_dens_weibull);
-PHP_FUNCTION(stats_dens_uniform);
-PHP_FUNCTION(stats_dens_chisquare);
-PHP_FUNCTION(stats_dens_t);
-PHP_FUNCTION(stats_dens_gamma);
-PHP_FUNCTION(stats_dens_exponential);
-PHP_FUNCTION(stats_dens_f);
-PHP_FUNCTION(stats_dens_pmf_binomial);
-PHP_FUNCTION(stats_dens_pmf_poisson);
-PHP_FUNCTION(stats_dens_pmf_negative_binomial);
-PHP_FUNCTION(stats_dens_pmf_hypergeometric);
-PHP_FUNCTION(stats_stat_powersum);
-PHP_FUNCTION(stats_stat_innerproduct);
-PHP_FUNCTION(stats_stat_independent_t);
-PHP_FUNCTION(stats_stat_paired_t);
-PHP_FUNCTION(stats_stat_percentile);
-PHP_FUNCTION(stats_stat_correlation);
-PHP_FUNCTION(stats_stat_binomial_coef);
-PHP_FUNCTION(stats_stat_factorial);
-PHP_FUNCTION(stats_variance);
-PHP_FUNCTION(stats_standard_deviation);
-PHP_FUNCTION(stats_absolute_deviation);
-PHP_FUNCTION(stats_harmonic_mean);
-PHP_FUNCTION(stats_skew);
-PHP_FUNCTION(stats_kurtosis);
-PHP_FUNCTION(stats_covariance);
-
 
 #ifdef ZTS
 #define STATS_D zend_stats_globals *stats_globals

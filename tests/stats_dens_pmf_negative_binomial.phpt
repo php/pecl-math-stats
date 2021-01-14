@@ -1,5 +1,7 @@
 --TEST--
 stats_dens_pmf_negative_binomial()
+--INI--
+serialize_precision=14
 --FILE--
 <?php
 // check for each x

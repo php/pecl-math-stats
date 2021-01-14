@@ -21,18 +21,46 @@
 #endif
 
 #include "php.h"
-#include "php_stats.h"
 #include "ext/standard/info.h"
 #include "ext/standard/head.h"
+#include "php_stats.h"
+#include "randlib.h"
+#include "cdflib.h"
+
+#ifndef ZEND_ARG_INFO_WITH_DEFAULT_VALUE
+#define ZEND_ARG_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, default_value) \
+    ZEND_ARG_INFO(pass_by_ref, name)
+#endif
+
+#if PHP_VERSION_ID < 70200
+#undef ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX
+#define ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, class_name, allow_null) \
+    static const zend_internal_arg_info name[] = { \
+        { (const char*)(zend_uintptr_t)(required_num_args), ( #class_name ), 0, return_reference, allow_null, 0 },
+#endif
+
+#ifndef ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX
+#define ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(name, return_reference, required_num_args, class_name, allow_null) \
+    ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, class_name, allow_null)
+#endif
+
+#ifndef ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX
+# define ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(name, return_reference, num_args, type) \
+    ZEND_BEGIN_ARG_INFO_EX(name, 0, return_reference, num_args)
+#endif
+
+#ifndef ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE
+#define ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, type_hint, allow_null, default_value) \
+    ZEND_ARG_TYPE_INFO(pass_by_ref, name, type_hint, allow_null)
+#endif
+
+#include "stats_arginfo.h"
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include "randlib.h"
-#include "cdflib.h"
 
 #define STATS_PI 3.14159265358979323846
-
 
 #ifdef PHP_WIN32
 extern double fd_lgamma(double x);
@@ -49,84 +77,10 @@ static double exponential_quantile(double p);
 static double exponential_cdf(double x);
 static double binom(double x, double n);
 
-zend_function_entry statistics_functions[] = {
-	PHP_FE(stats_cdf_t,					NULL)
-	PHP_FE(stats_cdf_normal,			NULL)
-	PHP_FE(stats_cdf_gamma,				NULL)
-	PHP_FE(stats_cdf_chisquare,			NULL)
-	PHP_FE(stats_cdf_beta,				NULL)
-	PHP_FE(stats_cdf_binomial,			NULL)
-	PHP_FE(stats_cdf_noncentral_chisquare,NULL)
-	PHP_FE(stats_cdf_f,					NULL)
-	PHP_FE(stats_cdf_noncentral_f,		NULL)
-	PHP_FE(stats_cdf_noncentral_t,		NULL)
-	PHP_FE(stats_cdf_negative_binomial,	NULL)
-	PHP_FE(stats_cdf_poisson,			NULL)
-	PHP_FE(stats_cdf_laplace,			NULL)
-	PHP_FE(stats_cdf_cauchy,			NULL)
-	PHP_FE(stats_cdf_logistic,			NULL)
-	PHP_FE(stats_cdf_weibull,			NULL)
-	PHP_FE(stats_cdf_uniform,			NULL)
-	PHP_FE(stats_cdf_exponential,		NULL)
-	PHP_FE(stats_rand_setall,			NULL)
-	PHP_FE(stats_rand_getsd,			NULL)
-	PHP_FE(stats_rand_gen_iuniform,		NULL)
-	PHP_FE(stats_rand_gen_funiform,		NULL)
-	PHP_FE(stats_rand_ignlgi,			NULL)
-	PHP_FE(stats_rand_ranf,				NULL)
-	PHP_FE(stats_rand_gen_beta,			NULL)
-	PHP_FE(stats_rand_gen_chisquare,	NULL)
-	PHP_FE(stats_rand_gen_exponential,	NULL)
-	PHP_FE(stats_rand_gen_f,			NULL)
-	PHP_FE(stats_rand_gen_gamma,		NULL)
-	PHP_FE(stats_rand_gen_noncentral_chisquare,NULL)
-	PHP_FE(stats_rand_gen_noncentral_f,	NULL)
-	PHP_DEP_FALIAS(stats_rand_gen_noncenral_f,	stats_rand_gen_noncentral_f,	NULL)
-	PHP_FE(stats_rand_gen_normal,		NULL)
-	PHP_FE(stats_rand_phrase_to_seeds,	NULL)
-	PHP_FE(stats_rand_ibinomial,		NULL)
-	PHP_FE(stats_rand_ibinomial_negative,NULL)
-	PHP_FE(stats_rand_gen_ipoisson,		NULL)
-	PHP_FE(stats_rand_gen_noncentral_t,	NULL)
-	PHP_FE(stats_rand_gen_t,			NULL)
-	PHP_FE(stats_dens_normal,			NULL)
-	PHP_FE(stats_dens_cauchy,			NULL)
-	PHP_FE(stats_dens_laplace,			NULL)
-	PHP_FE(stats_dens_logistic,			NULL)
-	PHP_FE(stats_dens_beta,				NULL)
-	PHP_FE(stats_dens_weibull,			NULL)
-	PHP_FE(stats_dens_uniform,			NULL)
-	PHP_FE(stats_dens_chisquare,		NULL)
-	PHP_FE(stats_dens_t,				NULL)
-	PHP_FE(stats_dens_gamma,			NULL)
-	PHP_FE(stats_dens_exponential,		NULL)
-	PHP_FE(stats_dens_f,				NULL)
-	PHP_FE(stats_dens_pmf_binomial,		NULL)
-	PHP_FE(stats_dens_pmf_poisson,		NULL)
-	PHP_FE(stats_dens_pmf_negative_binomial,NULL)
-	PHP_FE(stats_dens_pmf_hypergeometric,	NULL)
-	PHP_FE(stats_stat_powersum,			NULL)
-	PHP_FE(stats_stat_innerproduct,		NULL)
-	PHP_FE(stats_stat_independent_t,	NULL)
-	PHP_FE(stats_stat_paired_t,			NULL)
-	PHP_FE(stats_stat_percentile,		NULL)
-	PHP_FE(stats_stat_correlation,		NULL)
-	PHP_FE(stats_stat_binomial_coef,	NULL)
-	PHP_FE(stats_stat_factorial,		NULL)
-	PHP_FE(stats_variance,				NULL)
-	PHP_FE(stats_standard_deviation,	NULL)
-	PHP_FE(stats_absolute_deviation,	NULL)
-	PHP_FE(stats_harmonic_mean,			NULL)
-	PHP_FE(stats_skew,					NULL)
-	PHP_FE(stats_kurtosis,				NULL)
-	PHP_FE(stats_covariance,			NULL)
-	{NULL, NULL, NULL}
-};
-
 zend_module_entry stats_module_entry = {
 	STANDARD_MODULE_HEADER,
 	"stats",
-	statistics_functions,
+	ext_functions,
 	NULL,
 	NULL,
 	NULL,
@@ -157,7 +111,7 @@ PHP_MINFO_FUNCTION(stats)
  *
  * This is not correct any more, depends on what compare_func is set to.
  */
-static int stats_array_data_compare(const void *a, const void *b TSRMLS_DC)
+static int stats_array_data_compare(const void *a, const void *b)
 {
 	Bucket *f;
 	Bucket *s;
@@ -171,7 +125,7 @@ static int stats_array_data_compare(const void *a, const void *b TSRMLS_DC)
 	first = f->val;
 	second = s->val;
 
-	result = numeric_compare_function(&first, &second TSRMLS_CC);
+	result = numeric_compare_function(&first, &second);
 
 	if (result < 0) {
 		return -1;
@@ -265,12 +219,12 @@ PHP_FUNCTION(stats_cdf_t)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ddl", &arg1, &arg2, &which) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ddl", &arg1, &arg2, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 3) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Third parameter should be in the 1..3 range");
+		php_error_docref(NULL, E_WARNING, "Third parameter should be in the 1..3 range");
 		RETURN_FALSE;
 	}
 
@@ -289,7 +243,7 @@ PHP_FUNCTION(stats_cdf_t)
 	cdft((int *)&which, &p, &q, &t, &df, &status, &bound);
 
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error");
+		php_error_docref(NULL, E_WARNING, "Computation Error");
 		RETURN_FALSE;
 	}
 
@@ -395,12 +349,12 @@ PHP_FUNCTION(stats_cdf_normal)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -425,7 +379,7 @@ PHP_FUNCTION(stats_cdf_normal)
 
 	cdfnor((int *)&which, &p, &q, &x, &mean, &sd, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation error");
+		php_error_docref(NULL, E_WARNING, "Computation error");
 		RETURN_FALSE;
 	}
 
@@ -542,13 +496,13 @@ PHP_FUNCTION(stats_cdf_gamma)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -581,7 +535,7 @@ PHP_FUNCTION(stats_cdf_gamma)
 
 	cdfgam((int *)&which, &p, &q, &x, &shape, &rate, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error");
+		php_error_docref(NULL, E_WARNING, "Computation Error");
 		RETURN_FALSE;
 	}
 
@@ -677,13 +631,13 @@ PHP_FUNCTION(stats_cdf_chisquare)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddl", &arg1, &arg2, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 3) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Third parameter should be in the 1..3 range");
+		php_error_docref(NULL, E_WARNING, "Third parameter should be in the 1..3 range");
 		RETURN_FALSE;
 	}
 
@@ -702,7 +656,7 @@ PHP_FUNCTION(stats_cdf_chisquare)
 
 	cdfchi((int *)&which, &p, &q, &x, &df, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error");
+		php_error_docref(NULL, E_WARNING, "Computation Error");
 		RETURN_FALSE;
 	}
 
@@ -814,13 +768,13 @@ PHP_FUNCTION(stats_cdf_beta)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -848,7 +802,7 @@ PHP_FUNCTION(stats_cdf_beta)
 
 	cdfbet((int *)&which, &p, &q, &x, &y, &a, &b, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error");
+		php_error_docref(NULL, E_WARNING, "Computation Error");
 		RETURN_FALSE;
 	}
 
@@ -954,13 +908,13 @@ PHP_FUNCTION(stats_cdf_binomial)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -987,7 +941,7 @@ PHP_FUNCTION(stats_cdf_binomial)
 
 	cdfbin((int *)&which, &p, &q, &sn, &xn, &pr, &ompr, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error in binomialcdf");
+		php_error_docref(NULL, E_WARNING, "Computation Error in binomialcdf");
 		RETURN_FALSE;
 	}
 
@@ -1094,13 +1048,13 @@ PHP_FUNCTION(stats_cdf_noncentral_chisquare)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -1125,7 +1079,7 @@ PHP_FUNCTION(stats_cdf_noncentral_chisquare)
 
 	cdfchn((int *)&which, &p, &q, &x, &df, &pnonc, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error in cdfchn");
+		php_error_docref(NULL, E_WARNING, "Computation Error in cdfchn");
 		RETURN_FALSE;
 	}
 
@@ -1228,13 +1182,13 @@ PHP_FUNCTION(stats_cdf_f)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 	if (which < 4) {
@@ -1256,7 +1210,7 @@ PHP_FUNCTION(stats_cdf_f)
 
 	cdff((int *)&which, &p, &q, &f, &dfn, &dfd, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error in cdff");
+		php_error_docref(NULL, E_WARNING, "Computation Error in cdff");
 		RETURN_FALSE;
 	}
 
@@ -1376,13 +1330,13 @@ PHP_FUNCTION(stats_cdf_noncentral_f)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddddl", &arg1, &arg2, &arg3, &arg4, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 5) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fifth parameter should be in the 1..5 range");
+		php_error_docref(NULL, E_WARNING, "Fifth parameter should be in the 1..5 range");
 		RETURN_FALSE;
 	}
 
@@ -1413,7 +1367,7 @@ PHP_FUNCTION(stats_cdf_noncentral_f)
 
 	cdffnc((int *)&which, &p, &q, &f, &dfn, &dfd, &pnonc, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error in cdffnc");
+		php_error_docref(NULL, E_WARNING, "Computation Error in cdffnc");
 		RETURN_FALSE;
 	}
 
@@ -1510,13 +1464,13 @@ PHP_FUNCTION(stats_cdf_noncentral_t)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -1540,7 +1494,7 @@ PHP_FUNCTION(stats_cdf_noncentral_t)
 
 	cdftnc((int *)&which, &p, &q, &t, &df, &pnonc, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error");
+		php_error_docref(NULL, E_WARNING, "Computation Error");
 		RETURN_FALSE;
 	}
 
@@ -1655,13 +1609,13 @@ PHP_FUNCTION(stats_cdf_negative_binomial)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -1687,7 +1641,7 @@ PHP_FUNCTION(stats_cdf_negative_binomial)
 
 	cdfnbn((int *)&which, &p, &q, &sn, &xn, &pr, &ompr, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error in cdfnbn");
+		php_error_docref(NULL, E_WARNING, "Computation Error in cdfnbn");
 		RETURN_FALSE;
 	}
 
@@ -1778,13 +1732,13 @@ PHP_FUNCTION(stats_cdf_poisson)
 	zend_long which;
 	int status = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddl", &arg1, &arg2, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 3) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Third parameter should be in the 1..3 range");
+		php_error_docref(NULL, E_WARNING, "Third parameter should be in the 1..3 range");
 		RETURN_FALSE;
 	}
 
@@ -1803,7 +1757,7 @@ PHP_FUNCTION(stats_cdf_poisson)
 
 	cdfpoi((int *)&which, &p, &q, &x, &xlam, &status, &bound);
 	if (status != 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Computation Error");
+		php_error_docref(NULL, E_WARNING, "Computation Error");
 		RETURN_FALSE;
 	}
 
@@ -1850,13 +1804,13 @@ PHP_FUNCTION(stats_cdf_laplace)
 	double sd;
 	zend_long which;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -1920,13 +1874,13 @@ PHP_FUNCTION(stats_cdf_cauchy)
 	double sd;
 	zend_long which;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -1989,13 +1943,13 @@ PHP_FUNCTION(stats_cdf_logistic)
 	double mean;
 	zend_long which;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -2047,13 +2001,13 @@ PHP_FUNCTION(stats_cdf_weibull)
 	double b;
 	zend_long which;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -2097,13 +2051,13 @@ PHP_FUNCTION(stats_cdf_uniform)
 	double b;
 	zend_long which;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dddl", &arg1, &arg2, &arg3, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 4) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Fourth parameter should be in the 1..4 range");
+		php_error_docref(NULL, E_WARNING, "Fourth parameter should be in the 1..4 range");
 		RETURN_FALSE;
 	}
 
@@ -2126,7 +2080,7 @@ PHP_FUNCTION(stats_cdf_uniform)
 	}
 
 	if (which > 1 && (p < 0.0F || p > 1.0F)) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "p is out of range. p : %16.6E", p);
+		php_error_docref(NULL, E_WARNING, "p is out of range. p : %16.6E", p);
 		RETURN_FALSE;
 	}
 
@@ -2171,13 +2125,13 @@ PHP_FUNCTION(stats_cdf_exponential)
 	double scale;
 	zend_long which;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddl", &arg1, &arg2, &which) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (which < 1 || which > 3) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Third parameter should be in the 1..3 range");
+		php_error_docref(NULL, E_WARNING, "Third parameter should be in the 1..3 range");
 		RETURN_FALSE;
 	}
 
@@ -2207,18 +2161,19 @@ PHP_FUNCTION(stats_cdf_exponential)
 /* RANDLIB functions */
 /*********************/
 
-/* {{{ proto void stats_rand_setall(int iseed1, int iseed2)
+/* {{{ proto bool stats_rand_setall(int iseed1, int iseed2)
 	Not documented */
 PHP_FUNCTION(stats_rand_setall)
 {
 	zend_long iseed_1;
 	zend_long iseed_2;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ll", &iseed_1, &iseed_2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ll", &iseed_1, &iseed_2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	setall(iseed_1, iseed_2);
+    RETURN_TRUE;
 }
 /* }}} */
 
@@ -2247,16 +2202,16 @@ PHP_FUNCTION(stats_rand_gen_iuniform)
 	zend_long low;
 	zend_long high;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ll", &low, &high) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ll", &low, &high) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (high - low > 2147483561L) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "high - low too large. low : %16ld  high %16ld", low, high);
+		php_error_docref(NULL, E_WARNING, "high - low too large. low : %16ld  high %16ld", low, high);
 		RETURN_FALSE;
 	}
 	if (low > high) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "low greater than high. low : %16ld  high %16ld", low, high);
+		php_error_docref(NULL, E_WARNING, "low greater than high. low : %16ld  high %16ld", low, high);
 		RETURN_FALSE;
 	}
 
@@ -2271,12 +2226,12 @@ PHP_FUNCTION(stats_rand_gen_funiform)
 	double low;
 	double high;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &low, &high) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &low, &high) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (low > high) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "low greater than high. low : %16.6E  high : %16.6E", low, high);
+		php_error_docref(NULL, E_WARNING, "low greater than high. low : %16.6E  high : %16.6E", low, high);
 		RETURN_FALSE;
 	}
 
@@ -2315,12 +2270,12 @@ PHP_FUNCTION(stats_rand_gen_beta)
 	double a;
 	double b;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &a, &b) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &a, &b) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (a < 1.0E-37 || b < 1.0E-37) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "'a' or 'b' lower than 1.0E-37. 'a' value : %16.6E  'b' value : %16.6E", a, b);
+		php_error_docref(NULL, E_WARNING, "'a' or 'b' lower than 1.0E-37. 'a' value : %16.6E  'b' value : %16.6E", a, b);
 		RETURN_FALSE;
 	}
 
@@ -2334,12 +2289,12 @@ PHP_FUNCTION(stats_rand_gen_chisquare)
 {
 	double df;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "d", &df) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "d", &df) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (df <= 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "df <= 0.0. df : %16.6E", df);
+		php_error_docref(NULL, E_WARNING, "df <= 0.0. df : %16.6E", df);
 		RETURN_FALSE;
 	}
 
@@ -2353,12 +2308,12 @@ PHP_FUNCTION(stats_rand_gen_exponential)
 {
 	double av;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "d", &av) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "d", &av) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (av < 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "av < 0.0");
+		php_error_docref(NULL, E_WARNING, "av < 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2373,12 +2328,12 @@ PHP_FUNCTION(stats_rand_gen_f)
 	double dfn;
 	double dfd;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &dfn, &dfd) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &dfn, &dfd) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (dfn < 0.0 || dfd < 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Degrees of freedom nonpositive. DFN value:%16.6E DFD value:%16.6E", dfn, dfd);
+		php_error_docref(NULL, E_WARNING, "Degrees of freedom nonpositive. DFN value:%16.6E DFD value:%16.6E", dfn, dfd);
 		RETURN_FALSE;
 	}
 
@@ -2393,12 +2348,12 @@ PHP_FUNCTION(stats_rand_gen_gamma)
 	double a;
 	double r;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &a, &r) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &a, &r) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (!(a > 0.0 && r > 0.0)) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "A or R nonpositive. A value : %16.6E , R value : %16.6E", a, r);
+		php_error_docref(NULL, E_WARNING, "A or R nonpositive. A value : %16.6E , R value : %16.6E", a, r);
 		RETURN_FALSE;
 	}
 
@@ -2413,12 +2368,12 @@ PHP_FUNCTION(stats_rand_gen_noncentral_chisquare)
 	double df;
 	double xnonc;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &df, &xnonc) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &df, &xnonc) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (df < 1.0 || xnonc < 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "df < 1 or xnonc < 0. df value : %16.6E  xnonc value : %16.6E", df, xnonc);
+		php_error_docref(NULL, E_WARNING, "df < 1 or xnonc < 0. df value : %16.6E  xnonc value : %16.6E", df, xnonc);
 		RETURN_FALSE;
 	}
 
@@ -2434,12 +2389,12 @@ PHP_FUNCTION(stats_rand_gen_noncentral_f)
 	double dfd;
 	double xnonc;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ddd", &dfn, &dfd, &xnonc) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ddd", &dfn, &dfd, &xnonc) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (dfn < 1.0 || dfd <= 0.0 || xnonc < 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Either (1) Numerator df < 1.0 or (2) Denominator df <= 0.0 or (3) Noncentrality parameter < 0.0. dfn: %16.6E  dfd: %16.6E  xnonc: %16.6E", dfn, dfd, xnonc);
+		php_error_docref(NULL, E_WARNING, "Either (1) Numerator df < 1.0 or (2) Denominator df <= 0.0 or (3) Noncentrality parameter < 0.0. dfn: %16.6E  dfd: %16.6E  xnonc: %16.6E", dfn, dfd, xnonc);
 		RETURN_FALSE;
 	}
 
@@ -2454,12 +2409,12 @@ PHP_FUNCTION(stats_rand_gen_normal)
 	double av;
 	double sd;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &av, &sd) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &av, &sd) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (sd < 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "sd < 0.0 . sd : %16.6E", sd);
+		php_error_docref(NULL, E_WARNING, "sd < 0.0 . sd : %16.6E", sd);
 		RETURN_FALSE;
 	}
 
@@ -2476,7 +2431,7 @@ PHP_FUNCTION(stats_rand_phrase_to_seeds)
 	long seed_1;
 	long seed_2;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &par1) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z", &par1) == FAILURE) {
 		RETURN_FALSE;
 	}
 	convert_to_string_ex(par1);
@@ -2498,12 +2453,12 @@ PHP_FUNCTION(stats_rand_ibinomial)
 	zend_long n;
 	double pp;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ld", &n, &pp) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ld", &n, &pp) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if ((n < 0) || (pp < 0.0) || (pp > 1.0)) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Bad values for the arguments. n : %ld  pp : %16.6E", n, pp);
+		php_error_docref(NULL, E_WARNING, "Bad values for the arguments. n : %ld  pp : %16.6E", n, pp);
 		RETURN_FALSE;
 	}
 
@@ -2518,16 +2473,16 @@ PHP_FUNCTION(stats_rand_ibinomial_negative)
 	zend_long n;
 	double p;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ld", &n, &p) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ld", &n, &p) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (n <= 0L) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "n < 0. n : %ld", n);
+		php_error_docref(NULL, E_WARNING, "n < 0. n : %ld", n);
 		RETURN_FALSE;
 	}
 	if (p < 0.0F || p > 1.0F) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "p is out of range. p : %16.E", p);
+		php_error_docref(NULL, E_WARNING, "p is out of range. p : %16.E", p);
 		RETURN_FALSE;
 	}
 
@@ -2541,12 +2496,12 @@ PHP_FUNCTION(stats_rand_gen_ipoisson)
 {
 	double mu;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "d", &mu) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "d", &mu) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (mu < 0.0F) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "mu < 0.0 . mu : %16.6E", mu);
+		php_error_docref(NULL, E_WARNING, "mu < 0.0 . mu : %16.6E", mu);
 		RETURN_FALSE;
 	}
 
@@ -2561,12 +2516,12 @@ PHP_FUNCTION(stats_rand_gen_noncentral_t)
 	double df;
 	double xnonc;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &df, &xnonc) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &df, &xnonc) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (df < 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "df <= 0 . df : %16.6E", df);
+		php_error_docref(NULL, E_WARNING, "df <= 0 . df : %16.6E", df);
 		RETURN_FALSE;
 	}
 
@@ -2581,7 +2536,7 @@ PHP_FUNCTION(stats_rand_gen_t)
 	zval *arg1;
 	double df;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &arg1) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z", &arg1) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -2589,7 +2544,7 @@ PHP_FUNCTION(stats_rand_gen_t)
 	df = Z_DVAL_P(arg1);
 
 	if (df <= 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "df <= 0 . df : %16.6E", df);
+		php_error_docref(NULL, E_WARNING, "df <= 0 . df : %16.6E", df);
 		RETURN_FALSE;
 	}
 
@@ -2611,13 +2566,13 @@ PHP_FUNCTION(stats_dens_normal)
 	double y;
 	double z;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddd", &x, &ave, &stdev) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (stdev == 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "stdev is 0.0");
+		php_error_docref(NULL, E_WARNING, "stdev is 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2638,13 +2593,13 @@ PHP_FUNCTION(stats_dens_cauchy)
 	double y;
 	double z;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddd", &x, &ave, &stdev) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (stdev == 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "stdev is 0.0");
+		php_error_docref(NULL, E_WARNING, "stdev is 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2665,13 +2620,13 @@ PHP_FUNCTION(stats_dens_laplace)
 	double y;
 	double z;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddd", &x, &ave, &stdev) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (stdev == 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "stdev is 0.0");
+		php_error_docref(NULL, E_WARNING, "stdev is 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2692,13 +2647,13 @@ PHP_FUNCTION(stats_dens_logistic)
 	double y;
 	double z;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddd", &x, &ave, &stdev) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (stdev == 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "stdev is 0.0");
+		php_error_docref(NULL, E_WARNING, "stdev is 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2719,7 +2674,7 @@ PHP_FUNCTION(stats_dens_beta)
 	double x;
 	double y;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ddd", &x, &a, &b) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ddd", &x, &a, &b) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -2739,12 +2694,12 @@ PHP_FUNCTION(stats_dens_weibull)
 	double x;
 	double y;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ddd", &x, &a, &b) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ddd", &x, &a, &b) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (b == 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "b is 0.0");
+		php_error_docref(NULL, E_WARNING, "b is 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2763,13 +2718,13 @@ PHP_FUNCTION(stats_dens_uniform)
 	double x;
 	double y;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddd", &x, &a, &b) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (a == b) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "b == a == %16.6E", a);
+		php_error_docref(NULL, E_WARNING, "b == a == %16.6E", a);
 		RETURN_FALSE;
 	}
 
@@ -2793,7 +2748,7 @@ PHP_FUNCTION(stats_dens_chisquare)
 	double y;
 	double z;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"dd", &x, &dfr) == FAILURE) {
 		RETURN_FALSE;
 	}
@@ -2818,12 +2773,12 @@ PHP_FUNCTION(stats_dens_t)
 	double fac3;
 	double x;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &x, &dfr) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &x, &dfr) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (dfr == 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "dfr == 0.0");
+		php_error_docref(NULL, E_WARNING, "dfr == 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2846,12 +2801,12 @@ PHP_FUNCTION(stats_dens_gamma)
 	double x;
 	double z;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ddd", &x, &shape, &scale) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ddd", &x, &shape, &scale) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (scale == 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "scale == 0.0");
+		php_error_docref(NULL, E_WARNING, "scale == 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2873,12 +2828,12 @@ PHP_FUNCTION(stats_dens_exponential)
 	double x;
 	double y;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &x, &scale) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &x, &scale) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if (scale == 0.0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "scale == 0.0");
+		php_error_docref(NULL, E_WARNING, "scale == 0.0");
 		RETURN_FALSE;
 	}
 
@@ -2907,7 +2862,7 @@ PHP_FUNCTION(stats_dens_f)
 	double x;
 	double z;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ddd", &x, &dfr1, &dfr2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ddd", &x, &dfr1, &dfr2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -2947,7 +2902,7 @@ PHP_FUNCTION(stats_dens_pmf_binomial)
 	double n;
 	double x;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,
+	if (zend_parse_parameters(ZEND_NUM_ARGS(),
 						"ddd", &x, &n, &pi) == FAILURE) {
 		RETURN_FALSE;
 	}
@@ -2955,7 +2910,7 @@ PHP_FUNCTION(stats_dens_pmf_binomial)
 	if ((x == 0.0 && n == 0.0) || (pi == 0.0 && x == 0.0)
 		|| ( (1.0 - pi) == 0.0 && (n - x) == 0) ) {
 
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Params leading to pow(0, 0). x:%16.6E  n:%16.6E  pi:%16.6E", x, n, pi);
+		php_error_docref(NULL, E_WARNING, "Params leading to pow(0, 0). x:%16.6E  n:%16.6E  pi:%16.6E", x, n, pi);
 		RETURN_FALSE;
 	}
 
@@ -2973,7 +2928,7 @@ PHP_FUNCTION(stats_dens_pmf_poisson)
 	double z;
 	double x;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dd", &x, &lb) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dd", &x, &lb) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -2992,12 +2947,12 @@ PHP_FUNCTION(stats_dens_pmf_negative_binomial)
 	double n;
 	double x;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ddd", &x, &n, &pi) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ddd", &x, &n, &pi) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if ((pi == 0.0 && n == 0.0) || ((1.0 - pi) == 0.0 && x == 0.0)) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Params leading to pow(0, 0). x:%16.6E  n:%16.6E  pi:%16.6E", x, n, pi);
+		php_error_docref(NULL, E_WARNING, "Params leading to pow(0, 0). x:%16.6E  n:%16.6E  pi:%16.6E", x, n, pi);
 		RETURN_FALSE;
 	}
 
@@ -3017,12 +2972,12 @@ PHP_FUNCTION(stats_dens_pmf_hypergeometric)
 	double n1;
 	double n2;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "dddd", &n1, &n2, &N1, &N2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "dddd", &n1, &n2, &N1, &N2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
 	if ((int)(n1 + n2) >= (int)(N1 + N2)) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "possible division by zero - n1+n2 >= N1+N2");
+		php_error_docref(NULL, E_WARNING, "possible division by zero - n1+n2 >= N1+N2");
 		/* RETURN_FALSE; */
 	}
 
@@ -3045,7 +3000,7 @@ PHP_FUNCTION(stats_stat_powersum)
 	double power;
 	double sum = 0.0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z/z", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -3059,7 +3014,7 @@ PHP_FUNCTION(stats_stat_powersum)
 		if (Z_DVAL_P(data) != 0 || power != 0) {
 			sum += pow (Z_DVAL_P(data), power);
 		} else {
-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Both value and power are zero");
+			php_error_docref(NULL, E_WARNING, "Both value and power are zero");
 		}
 		zend_hash_move_forward_ex(Z_ARRVAL_P(arg1), &pos);
 	}
@@ -3079,14 +3034,14 @@ PHP_FUNCTION(stats_stat_innerproduct)
 	double sum = 0.0;
 
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z/z/", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 	convert_to_array_ex(arg1);
 	convert_to_array_ex(arg2);
 
 	if (zend_hash_num_elements(Z_ARRVAL_P(arg1)) != zend_hash_num_elements(Z_ARRVAL_P(arg2))) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unequal number of X and Y coordinates");
+		php_error_docref(NULL, E_WARNING, "Unequal number of X and Y coordinates");
 		RETURN_FALSE;
 	}
 
@@ -3128,7 +3083,7 @@ PHP_FUNCTION(stats_stat_independent_t)
 	double fc;
 	double ts;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z/z/", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 	convert_to_array_ex(arg1);
@@ -3137,7 +3092,7 @@ PHP_FUNCTION(stats_stat_independent_t)
 	xnum = zend_hash_num_elements(Z_ARRVAL_P(arg1));
 	ynum = zend_hash_num_elements(Z_ARRVAL_P(arg2));
 	if ( xnum < 2 ||  ynum < 2) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Each argument should have more than 1 element");
+		php_error_docref(NULL, E_WARNING, "Each argument should have more than 1 element");
 		RETURN_FALSE;
 	}
 
@@ -3187,7 +3142,7 @@ PHP_FUNCTION(stats_stat_paired_t)
 	double ts;
 	double cur;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z/z/", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 	convert_to_array_ex(arg1);
@@ -3197,11 +3152,11 @@ PHP_FUNCTION(stats_stat_paired_t)
 	ynum = zend_hash_num_elements(Z_ARRVAL_P(arg2));
 
 	if (xnum != ynum) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unequal number of X and Y coordinates");
+		php_error_docref(NULL, E_WARNING, "Unequal number of X and Y coordinates");
 		RETURN_FALSE;
 	}
 	if (xnum < 2) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "arr1 should have atleast 2 elements");
+		php_error_docref(NULL, E_WARNING, "arr1 should have atleast 2 elements");
 		RETURN_FALSE;
 	}
 
@@ -3244,7 +3199,7 @@ PHP_FUNCTION(stats_stat_percentile)
 	double upp;
 	double val = 0.0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z/z", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -3254,9 +3209,7 @@ PHP_FUNCTION(stats_stat_percentile)
 
 	xnum = zend_hash_num_elements(Z_ARRVAL_P(arg1));
 
-	if (zend_hash_sort(Z_ARRVAL_P(arg1), stats_array_data_compare, 1) == FAILURE) {
-		RETURN_FALSE;
-	}
+	zend_hash_sort(Z_ARRVAL_P(arg1), stats_array_data_compare, 1);
 
 	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arg1), &pos1);
 
@@ -3315,7 +3268,7 @@ PHP_FUNCTION(stats_stat_correlation)
 	double cc;
 	double rr;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/", &arg1, &arg2) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z/z/", &arg1, &arg2) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -3326,7 +3279,7 @@ PHP_FUNCTION(stats_stat_correlation)
 	ynum = zend_hash_num_elements(Z_ARRVAL_P(arg2));
 
 	if (xnum != ynum) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Unequal number of X and Y coordinates");
+		php_error_docref(NULL, E_WARNING, "Unequal number of X and Y coordinates");
 		RETURN_FALSE;
 	}
 
@@ -3369,7 +3322,7 @@ PHP_FUNCTION(stats_stat_binomial_coef)
 	zend_long x;
 	double bc = 1.0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ll", &x, &n) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "ll", &x, &n) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -3389,7 +3342,7 @@ PHP_FUNCTION(stats_stat_factorial)
 	zend_long i;
 	double f = 1;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &n) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &n) == FAILURE) {
 		RETURN_FALSE;
 	}
 
@@ -3463,15 +3416,15 @@ PHP_FUNCTION(stats_variance)
 	zval *arr;
 	zend_bool sample = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/|b",  &arr, &sample) == FAILURE) {
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "a/|b",  &arr, &sample) == FAILURE) {
+		RETURN_FALSE;
 	}
 	if (zend_hash_num_elements(Z_ARRVAL_P(arr)) == 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The array has zero elements");
+		php_error_docref(NULL, E_WARNING, "The array has zero elements");
 		RETURN_FALSE;
 	}
 	if (sample && zend_hash_num_elements(Z_ARRVAL_P(arr)) == 1) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The array has only 1 element");
+		php_error_docref(NULL, E_WARNING, "The array has only 1 element");
 		RETURN_FALSE;
 	}
 	RETURN_DOUBLE(php_population_variance(arr, sample));
@@ -3485,15 +3438,15 @@ PHP_FUNCTION(stats_standard_deviation)
 	zval *arr;
 	zend_bool sample = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/|b",  &arr, &sample) == FAILURE) {
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "a/|b",  &arr, &sample) == FAILURE) {
+		RETURN_FALSE;
 	}
 	if (zend_hash_num_elements(Z_ARRVAL_P(arr)) == 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The array has zero elements");
+		php_error_docref(NULL, E_WARNING, "The array has zero elements");
 		RETURN_FALSE;
 	}
 	if (sample && zend_hash_num_elements(Z_ARRVAL_P(arr)) == 1) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The array has only 1 element");
+		php_error_docref(NULL, E_WARNING, "The array has only 1 element");
 		RETURN_FALSE;
 	}
 	RETURN_DOUBLE(sqrt(php_population_variance(arr, sample)));
@@ -3511,11 +3464,11 @@ PHP_FUNCTION(stats_absolute_deviation)
 	HashPosition pos;
 	int elements_num;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/",  &arr) == FAILURE) {
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "a/",  &arr) == FAILURE) {
+		RETURN_FALSE;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr))) == 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The array has zero elements");
+		php_error_docref(NULL, E_WARNING, "The array has zero elements");
 		RETURN_FALSE;
 	}
 
@@ -3541,11 +3494,11 @@ PHP_FUNCTION(stats_harmonic_mean)
 	HashPosition pos;
 	int elements_num;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/",  &arr) == FAILURE) {
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "a/",  &arr) == FAILURE) {
+		RETURN_FALSE;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr))) == 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The array has zero elements");
+		php_error_docref(NULL, E_WARNING, "The array has zero elements");
 		RETURN_FALSE;
 	}
 
@@ -3573,11 +3526,11 @@ PHP_FUNCTION(stats_skew)
 	HashPosition pos;
 	int elements_num, i = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/",  &arr) == FAILURE) {
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "a/",  &arr) == FAILURE) {
+		RETURN_FALSE;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr))) == 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The array has zero elements");
+		php_error_docref(NULL, E_WARNING, "The array has zero elements");
 		RETURN_FALSE;
 	}
 
@@ -3611,11 +3564,11 @@ PHP_FUNCTION(stats_kurtosis)
 	HashPosition pos;
 	int elements_num, i = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/",  &arr) == FAILURE) {
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "a/",  &arr) == FAILURE) {
+		RETURN_FALSE;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr))) == 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The array has zero elements");
+		php_error_docref(NULL, E_WARNING, "The array has zero elements");
 		RETURN_FALSE;
 	}
 
@@ -3651,19 +3604,19 @@ PHP_FUNCTION(stats_covariance)
 	HashPosition pos_1, pos_2;
 	int elements_num, i = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a/a/",  &arr_1, &arr_2) == FAILURE) {
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "a/a/",  &arr_1, &arr_2) == FAILURE) {
+		RETURN_FALSE;
 	}
 	if ((elements_num = zend_hash_num_elements(Z_ARRVAL_P(arr_1))) == 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The first array has zero elements");
+		php_error_docref(NULL, E_WARNING, "The first array has zero elements");
 		RETURN_FALSE;
 	}
 	if (zend_hash_num_elements(Z_ARRVAL_P(arr_2)) == 0) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The second array has zero elements");
+		php_error_docref(NULL, E_WARNING, "The second array has zero elements");
 		RETURN_FALSE;
 	}
 	if (elements_num != zend_hash_num_elements(Z_ARRVAL_P(arr_2))) {
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "The datasets are not of the same size");
+		php_error_docref(NULL, E_WARNING, "The datasets are not of the same size");
 		RETURN_FALSE;
 	}
 
