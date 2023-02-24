@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: e6cfe06b9c3e187348f16fd6a34bb7eafc5042d9 */
+ * Stub hash: 2dca8eb298b57b9da45d9270b4bc97de0faad1aa */
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_stats_cdf_t, 0, 3, MAY_BE_DOUBLE|MAY_BE_FALSE)
 	ZEND_ARG_TYPE_INFO(0, par1, IS_DOUBLE, 0)
@@ -137,9 +137,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_stats_rand_gen_noncentral_t arginfo_stats_rand_gen_noncentral_chisquare
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_stats_rand_gen_t, 0, 1, MAY_BE_ARRAY|MAY_BE_FALSE)
-	ZEND_ARG_TYPE_INFO(0, df, IS_DOUBLE, 0)
-ZEND_END_ARG_INFO()
+#define arginfo_stats_rand_gen_t arginfo_stats_rand_gen_chisquare
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_MASK_EX(arginfo_stats_dens_normal, 0, 3, MAY_BE_DOUBLE|MAY_BE_FALSE)
 	ZEND_ARG_TYPE_INFO(0, x, IS_DOUBLE, 0)
