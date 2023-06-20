@@ -54,7 +54,7 @@
     ZEND_ARG_TYPE_INFO(pass_by_ref, name, type_hint, allow_null)
 #endif
 
-#include "stats_arginfo.h"
+#include <stats_arginfo.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
