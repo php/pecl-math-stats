@@ -26,10 +26,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>uchiyama@php.net</email>
   <active>yes</active>
  </lead>
- <date>2016-06-02</date>
+ <date>2023-06-20</date>
  <version>
-  <release>2.0.3-dev</release>
-  <api>2.0.3</api>
+  <release>2.1.0</release>
+  <api>2.1.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -151,6 +151,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <file name="randlib.c" role="src" />
    <file name="randlib.h" role="src" />
    <file name="php_stats.c" role="src" />
+   <file name="stats_arginfo.h" role="src" />
    <file name="TODO" role="doc" />
    <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
