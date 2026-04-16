@@ -3309,6 +3309,12 @@ PHP_FUNCTION(stats_stat_correlation)
 	cc = sxy - (xnum * mx * my);
 	rr = cc / sqrt(vx * vy);
 
+	/* Clamp to [-1, 1]; ARM64 strict 64-bit FP causes catastrophic cancellation
+	   in variance subtraction, yielding tiny residuals for exact edge cases. */
+	if (rr > 1.0) rr = 1.0;
+	if (rr < -1.0) rr = -1.0;
+	if (fabs(rr) < 1e-15) rr = 0.0;
+
 	RETURN_DOUBLE(rr);
 }
 /* }}} */
