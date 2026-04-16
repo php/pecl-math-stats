@@ -111,16 +111,11 @@ PHP_MINFO_FUNCTION(stats)
  *
  * This is not correct any more, depends on what compare_func is set to.
  */
-static int stats_array_data_compare(const void *a, const void *b)
+static int stats_array_data_compare(Bucket *f, Bucket *s)
 {
-	Bucket *f;
-	Bucket *s;
 	int result;
 	zval first;
 	zval second;
-
-	f = (Bucket *) a;
-	s = (Bucket *) b;
 
 	first = f->val;
 	second = s->val;
