@@ -3260,14 +3260,12 @@ PHP_FUNCTION(stats_stat_correlation)
 	int ynum = 0;
 	double sx  = 0.0;
 	double sy  = 0.0;
-	double sxx = 0.0;
-	double syy = 0.0;
-	double sxy = 0.0;
 	double mx;
 	double my;
-	double vx;
-	double vy;
-	double cc;
+	double vx  = 0.0;
+	double vy  = 0.0;
+	double cc  = 0.0;
+	double dx, dy;
 	double rr;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z/z/", &arg1, &arg2) == FAILURE) {
@@ -3285,6 +3283,12 @@ PHP_FUNCTION(stats_stat_correlation)
 		RETURN_FALSE;
 	}
 
+	if (xnum < 2) {
+		php_error_docref(NULL, E_WARNING, "Correlation requires at least 2 data points");
+		RETURN_FALSE;
+	}
+
+	/* First pass: compute means */
 	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arg1), &pos1);
 	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arg2), &pos2);
 
@@ -3294,11 +3298,8 @@ PHP_FUNCTION(stats_stat_correlation)
 		convert_to_double_ex(data1);
 		convert_to_double_ex(data2);
 
-		sx  += Z_DVAL_P(data1);
-		sxx += Z_DVAL_P(data1) * Z_DVAL_P(data1);
-		sy  += Z_DVAL_P(data2);
-		syy += Z_DVAL_P(data2) * Z_DVAL_P(data2);
-		sxy += Z_DVAL_P(data1) * Z_DVAL_P(data2);
+		sx += Z_DVAL_P(data1);
+		sy += Z_DVAL_P(data2);
 
 		zend_hash_move_forward_ex(Z_ARRVAL_P(arg1), &pos1);
 		zend_hash_move_forward_ex(Z_ARRVAL_P(arg2), &pos2);
@@ -3306,10 +3307,37 @@ PHP_FUNCTION(stats_stat_correlation)
 
 	mx = sx / xnum;
 	my = sy / ynum;
-	vx = sxx - (xnum * mx * mx);
-	vy = syy - (ynum * my * my);
-	cc = sxy - (xnum * mx * my);
+
+	/* Second pass: compute variance and covariance from deviations */
+	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arg1), &pos1);
+	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(arg2), &pos2);
+
+	while ((data1 = zend_hash_get_current_data_ex(Z_ARRVAL_P(arg1), &pos1)) != NULL
+			&& (data2 = zend_hash_get_current_data_ex(Z_ARRVAL_P(arg2), &pos2)) != NULL) {
+
+		convert_to_double_ex(data1);
+		convert_to_double_ex(data2);
+
+		dx = Z_DVAL_P(data1) - mx;
+		dy = Z_DVAL_P(data2) - my;
+
+		vx += dx * dx;
+		vy += dy * dy;
+		cc += dx * dy;
+
+		zend_hash_move_forward_ex(Z_ARRVAL_P(arg1), &pos1);
+		zend_hash_move_forward_ex(Z_ARRVAL_P(arg2), &pos2);
+	}
+
+	if (vx == 0.0 || vy == 0.0) {
+		php_error_docref(NULL, E_WARNING, "Correlation is undefined when one or both arrays have zero variance");
+		RETURN_FALSE;
+	}
+
 	rr = cc / sqrt(vx * vy);
+
+	if (rr > 1.0) rr = 1.0;
+	if (rr < -1.0) rr = -1.0;
 
 	RETURN_DOUBLE(rr);
 }
