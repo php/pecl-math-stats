@@ -1,0 +1,12 @@
+{
+    "name": "php/stats",
+    "description": "Extension with routines for statistical computation",
+    "type": "php-ext",
+    "license": "PHP-3.01",
+    "require": {
+        "php": ">=7.0"
+    },
+    "php-ext": {
+        "extension-name": "stats"
+    }
+}
