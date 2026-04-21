@@ -151,6 +151,9 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <file name="randlib.c" role="src" />
    <file name="randlib.h" role="src" />
    <file name="php_stats.c" role="src" />
+   <file name="stats.stub.php" role="src" />
+   <file name="stats_arginfo.h" role="src" />
+   <file name="build/gen_stub.php" role="src" />
    <file name="TODO" role="doc" />
    <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
