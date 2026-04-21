@@ -125,6 +125,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file name="stats_standard_deviation.phpt" role="test" />
     <file name="stats_stat_binomial_coef.phpt" role="test" />
     <file name="stats_stat_correlation.phpt" role="test" />
+    <file name="stats_stat_correlation_degenerate.phpt" role="test" />
     <file name="stats_stat_factorial.phpt" role="test" />
     <file name="stats_stat_independent_t.phpt" role="test" />
     <file name="stats_stat_innerproduct.phpt" role="test" />
