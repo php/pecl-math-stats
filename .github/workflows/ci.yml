@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.1', '8.2', '8.3', '8.4', '8.5']
+        include:
+          - php-version: '8.5'
+            experimental: true
+
+    continue-on-error: ${{ matrix.experimental == true }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - name: Build
+        run: |
+          phpize
+          ./configure
+          make
+
+      - name: Test
+        env:
+          REPORT_EXIT_STATUS: 1
+          NO_INTERACTION: 1
+        run: |
+          TEST_PHP_EXECUTABLE=$(which php) php -n \
+            -d open_basedir= \
+            -d output_buffering=0 \
+            -d memory_limit=-1 \
+            run-tests.php -n \
+            -d extension_dir=modules \
+            -d extension=stats.so \
+            --show-diff \
+            tests
