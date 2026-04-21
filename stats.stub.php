@@ -43,7 +43,7 @@ function stats_rand_ibinomial(int $n, float $pp): int|false {}
 function stats_rand_ibinomial_negative(int $n, float $p): int|false {}
 function stats_rand_gen_ipoisson(float $mu): int|false {}
 function stats_rand_gen_noncentral_t(float $df, float $xnonc): float|false {}
-function stats_rand_gen_t(float $df): array|false {}
+function stats_rand_gen_t(float $df): float|false {}
 function stats_dens_normal(float $x, float $ave, float $stdev): float|false {}
 function stats_dens_cauchy(float $x, float $ave, float $stdev): float|false {}
 function stats_dens_laplace(float $x, float $ave, float $stdev): float|false {}
